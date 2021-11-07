@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTradeablesTable extends Migration
+class CreateTradesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class CreateTradeablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tradeables', function (Blueprint $table) {
+        Schema::create('trades', function (Blueprint $table) {
             $table->id();
+            $table->integer('rate');
+            $table->string('currency');
+            $table->double('amount');
+            $table->double('total');
+            $table->enum('status',['pending','processing','paid','rejected']);
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ class CreateTradeablesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tradeables');
+        Schema::dropIfExists('trades');
     }
 }

@@ -17,9 +17,9 @@
         </a>
     </li>
 
-    <li><a href="{{ route('admin.tradeables.index') }}" aria-expanded="false">
+    <li><a href="{{ route('admin.giftcards.index') }}" aria-expanded="false">
             <i class="flaticon-041-graph"></i>
-            <span class="nav-text">Tradeables</span>
+            <span class="nav-text">Giftcards</span>
         </a>
     </li>
 
@@ -34,7 +34,7 @@
             <span class="nav-text">Settings</span>
         </a>
         <ul aria-expanded="false">
-            <li><a href="">Products</a></li>
+            <li><a href="{{ route('admin.currencies.index') }}">Currencies</a></li>
             <li><a href="">Contact Details</a></li>
         </ul>
     </li>

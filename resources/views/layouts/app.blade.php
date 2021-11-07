@@ -17,6 +17,8 @@
     <meta property="og:image" content="page-error-404.html" />
     <meta name="format-detection" content="telephone=no">
 
+    <meta name="_token" content="{{csrf_token()}}">
+
     <!-- PAGE TITLE HERE -->
     <title>@yield('title') | {{ config('app.name') }}</title>
 
@@ -32,6 +34,10 @@
     <style>
         .form-group {
             margin-bottom: 10px;
+        }
+
+        input[type=text], select{
+            border-color: #eee;;
         }
 
     </style>

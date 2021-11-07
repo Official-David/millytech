@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tradeable extends Model
+class Currency extends Model
 {
+    protected $guarded = ['id'];
     use HasFactory;
 }

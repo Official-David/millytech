@@ -8,6 +8,10 @@ function admin_domain(){
     return config('domain.admin');
 }
 
+function front_domain(){
+    return config('doamin.front');
+}
+
 /**
  * Loads the site logo
  *

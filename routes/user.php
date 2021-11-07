@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\TradeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 
@@ -23,4 +24,11 @@ use App\Http\Controllers\Admin\UserController;
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::view('', 'user.index')->name('index');
+
+Route::prefix('trades')->as('trades.')->group(function(){
+    Route::get('',[TradeController::class,'index'])->name('index');
+    Route::post('place',[TradeController::class,'place'])->name('place');
+    Route::get('currencies/{id}',[TradeController::class,'currencies'])->name('currencies');
+    Route::get('rate/{id}',[TradeController::class,'rate'])->name('rate');
+});
 

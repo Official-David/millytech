@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tradeable;
+use App\Models\Country;
+use App\Models\GiftCard;
 use Illuminate\Http\Request;
 
-class TradeableController extends Controller
+class GiftCardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,8 @@ class TradeableController extends Controller
      */
     public function index()
     {
-        $tradeables = Tradeable::latest()->paginate(10);
-        return view('admin.tradeables.index',compact('tradeables'));
+        $giftcards = GiftCard::latest()->paginate();
+        return view('admin.giftcard.index', compact('giftcards'));
     }
 
     /**
@@ -26,7 +27,7 @@ class TradeableController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.giftcard.create');
     }
 
     /**
@@ -37,18 +38,21 @@ class TradeableController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $giftcard = GiftCard::create(['name'=>$request->name]);
+
+        $giftcard->currencies()->createMany($request->meta);
+        return response()->json();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function addCurrency()
     {
-        //
+        $html = view('includes.add-currency')->render();
+        return response()->json(['html'=>$html]);
     }
 
     /**
@@ -59,7 +63,9 @@ class TradeableController extends Controller
      */
     public function edit($id)
     {
-        //
+        $giftcard = GiftCard::findOrFail($id);
+
+        return view('admin.giftcard.edit',compact('giftcard'));
     }
 
     /**
@@ -71,7 +77,12 @@ class TradeableController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $giftcard = GiftCard::findOrFail($id);
+        $giftcard->name = $request->name;
+        $giftcard->currencies()->delete();
+        $giftcard->currencies()->createMany($request->meta);
+        $giftcard->save();
+        return response()->json();
     }
 
     /**
@@ -82,6 +93,8 @@ class TradeableController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $giftcard = GiftCard::findOrFail($id);
+        $giftcard->delete();
+        return redirect()->route('admin.giftcards.index');
     }
 }

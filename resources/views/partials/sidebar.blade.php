@@ -10,21 +10,21 @@
         </a></li> --}}
 
 
-    <li><a href="" aria-expanded="false">
+    <li><a href="{{ route('user.trades.index') }}" aria-expanded="false">
             <i class="flaticon-041-graph"></i>
-            <span class="nav-text">Trade</span>
+            <span class="nav-text">Sell Giftcard</span>
         </a>
     </li>
 
-    <li><a href="" aria-expanded="false">
+    {{-- <li><a href="" aria-expanded="false">
         <i class="flaticon-381-user-1"></i>
         <span class="nav-text">Trade history</span>
     </a>
-</li>
+</li> --}}
 
     <li><a href="" aria-expanded="false">
             <i class="flaticon-381-folder"></i>
-            <span class="nav-text">Transactions</span>
+            <span class="nav-text">Sale history</span>
         </a>
     </li>
 

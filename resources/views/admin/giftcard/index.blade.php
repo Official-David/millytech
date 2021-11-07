@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Users')
+@section('title','Gift Cards')
 
 @section('content')
 
@@ -13,39 +13,35 @@
         <div class="card">
             <div class="card-body">
                 <div class="text-end">
-                    <a href="{{ route('admin.user.create') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
-                        Add</a>
+                    <a href="{{ route('admin.giftcards.create') }}" class="btn btn-primary btn-sm"><i
+                            class="fa fa-plus"></i> Add</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-responsive-sm">
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Email</th>
+                                <th>Currencies and Rates</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($users as $user)
+                            @forelse ($giftcards as $giftcard)
                             <tr>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
+                                <td>{{ $giftcard->name }}</td>
+                                <td>
+                                    @foreach($giftcard->currencies as $currency)
+                                    {{ $currency->name }}:{{ $currency->rate }} @if(!$loop->last) | @endif
+                                    @endforeach
+                                </td>
                                 <td>
                                     <div class="dropdown dropdown-sm">
-                                        <button type="button" class="btn btn-success light sharp"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
-                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                    <rect x="0" y="0" width="24" height="24"></rect>
-                                                    <circle fill="#000000" cx="5" cy="12" r="2"></circle>
-                                                    <circle fill="#000000" cx="12" cy="12" r="2"></circle>
-                                                    <circle fill="#000000" cx="19" cy="12" r="2"></circle>
-                                                </g>
-                                            </svg>
+                                        <button type="button" class="btn btn-success light sharp" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg>
                                         </button>
                                         <div class="dropdown-menu" style="margin: 0px;">
-                                            <a class="dropdown-item" href="#">Edit</a>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            <a class="dropdown-item" href="{{route('admin.giftcards.edit',$giftcard->id)}}">Edit</a>
+                                            <a class="dropdown-item" href="{{ route('admin.giftcards.destroy',$giftcard->id) }}">Delete</a>
                                         </div>
                                     </div>
                                 </td>
@@ -59,7 +55,7 @@
                     </table>
                 </div>
                 <div class="d-flex justify-content-center pt-3">
-                    {{ $users->links() }}
+                    {{ $giftcards->links() }}
                 </div>
             </div>
         </div>
