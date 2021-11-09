@@ -5,19 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Trade extends Model
+class Bank extends Model
 {
     use HasFactory;
-
     protected $guarded = ['id'];
-
-    public $casts = [
-        'meta' => 'object',
-    ];
-
-    public function tradeable()
-    {
-        return $this->morphTo();
-    }
-
 }

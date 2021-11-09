@@ -18,4 +18,9 @@ class GiftCard extends Model
     {
         return $this->hasMany(Currency::class);
     }
+
+    public function trades()
+    {
+        return $this->morphMany(Trade::class,'tradeable');
+    }
 }

@@ -12,7 +12,11 @@ Route::get('/', function(){
 
 Route::resource('user', UserController::class);
 
-Route::resource('trade', TradeController::class);
+Route::resource('trade', TradeController::class)->except(['show']);
+Route::post('trade/change-status/{id}',[TradeController::class, 'changeStatus'])->name('trade.change-status');
+Route::get('trade/show/{id}',[TradeController::class,'show']);
+Route::get('trade/pay-form/{id}',[TradeController::class,'payForm']);
+Route::post('trade/pay/{id}',[TradeController::class, 'pay'])->name('trade.pay');
 
 Route::resource('giftcards', GiftCardController::class)->except(['show','destroy']);
 Route::get('giftcards/add-currency', [GiftCardController::class,'addCurrency'])->name('giftcards.add');

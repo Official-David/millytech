@@ -22,9 +22,9 @@
     </a>
 </li> --}}
 
-    <li><a href="" aria-expanded="false">
+    <li><a href="{{ route('user.trades.history') }}" aria-expanded="false">
             <i class="flaticon-381-folder"></i>
-            <span class="nav-text">Sale history</span>
+            <span class="nav-text">Trade history</span>
         </a>
     </li>
 
@@ -34,7 +34,7 @@
         </a>
         <ul aria-expanded="false">
             <li><a href="">Profile</a></li>
-            <li><a href="">Bank Details</a></li>
+            <li><a href="{{route('user.settings.bank.details')}}">Bank Details</a></li>
             <li><a href="">Change Password</a></li>
         </ul>
     </li>

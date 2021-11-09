@@ -23,18 +23,18 @@
         </a>
     </li>
 
-    <li><a href="" aria-expanded="false">
+    {{-- <li><a href="" aria-expanded="false">
             <i class="flaticon-038-gauge"></i>
             <span class="nav-text">Transactions</span>
         </a>
-    </li>
+    </li> --}}
 
     <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
             <i class="flaticon-381-settings-1"></i>
             <span class="nav-text">Settings</span>
         </a>
         <ul aria-expanded="false">
-            <li><a href="{{ route('admin.currencies.index') }}">Currencies</a></li>
+            <li><a href="{{ route('admin.currencies.index') }}">Admins</a></li>
             <li><a href="">Contact Details</a></li>
         </ul>
     </li>

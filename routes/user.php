@@ -3,7 +3,7 @@
 use App\Http\Controllers\User\TradeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
-
+use App\Http\Controllers\User\SettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +30,14 @@ Route::prefix('trades')->as('trades.')->group(function(){
     Route::post('place',[TradeController::class,'place'])->name('place');
     Route::get('currencies/{id}',[TradeController::class,'currencies'])->name('currencies');
     Route::get('rate/{id}',[TradeController::class,'rate'])->name('rate');
+
+    Route::get('history',[TradeController::class,'history'])->name('history');
+    Route::get('history/show/{id}',[TradeController::class,'show'])->name('show');
+});
+
+Route::prefix('settings')->as('settings.')->group(function(){
+    Route::get('bank',[SettingsController::class, 'bankDetails'])->name('bank.details');
+    Route::post('bank',[SettingsController::class, 'bankDetailsUpdate'])->name('bank.details.update');
+
 });
 
