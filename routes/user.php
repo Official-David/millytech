@@ -18,7 +18,7 @@ use App\Http\Controllers\User\SettingsController;
 
 // Route::get('/', function () {
 //     return view('welcome');
-// });
+// });§
 
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -38,6 +38,12 @@ Route::prefix('trades')->as('trades.')->group(function(){
 Route::prefix('settings')->as('settings.')->group(function(){
     Route::get('bank',[SettingsController::class, 'bankDetails'])->name('bank.details');
     Route::post('bank',[SettingsController::class, 'bankDetailsUpdate'])->name('bank.details.update');
+
+    Route::get('password',[SettingsController::class, 'password'])->name('password');
+    Route::post('password',[SettingsController::class, 'changePassword'])->name('password.change');
+
+    Route::get('profile',[SettingsController::class,'profile'])->name('profile');
+    Route::post('profile',[SettingsController::class,'updateProfile'])->name('profile.update');
 
 });
 

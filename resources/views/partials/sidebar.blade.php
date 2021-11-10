@@ -33,9 +33,9 @@
             <span class="nav-text">Settings</span>
         </a>
         <ul aria-expanded="false">
-            <li><a href="">Profile</a></li>
+            <li><a href="{{ route('user.settings.profile') }}">Profile</a></li>
             <li><a href="{{route('user.settings.bank.details')}}">Bank Details</a></li>
-            <li><a href="">Change Password</a></li>
+            <li><a href="{{ route('user.settings.password') }}">Change Password</a></li>
         </ul>
     </li>
     {{-- <li><a href="javascript:void(0);">

@@ -70,7 +70,7 @@
                                             <a class="dropdown-item" onclick="show({{$trade->id}})" class="d-block"> <i
                                                     class="fa fa-eye"></i>
                                                 Show</a>
-                                                @if (auth(config('fortify.guard'))->user()->super)
+                                                @if (auth(config('fortify.guard'))->user()->super && in_array($trade->status,['pending','processing']) )
                                                 <a class="dropdown-item" onclick="payForm({{$trade->id}})" class="d-block"> <i
                                                         class="fa fa-lock"></i>
                                                     Pay</a>
