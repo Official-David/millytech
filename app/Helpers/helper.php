@@ -37,7 +37,8 @@ function favicon()
 
 function profile_picture()
 {
-    return '';
+    $avatar = auth('user')->user()->avatar ?? 'default.png';
+    return asset(config('dir.profile').$avatar);
 }
 
 function trade_status($status)

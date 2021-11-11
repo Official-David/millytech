@@ -37,7 +37,11 @@
         }
 
         input[type=text], select{
-            border-color: #eee;;
+            border-color: #eee !important;
+        }
+
+        .form-select{
+            height: 2.75rem;
         }
 
     </style>

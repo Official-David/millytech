@@ -43,7 +43,6 @@ class SettingsController extends Controller
             'password' => $this->passwordRules(),
         ]);
         $user = User::findOrFail(auth(config('fortify.guard'))->user()->id);
-        // dd(Hash::check($request->current_password,$user->password));
 
         if(!Hash::check($request->current_password,$user->password))
         {
@@ -63,11 +62,41 @@ class SettingsController extends Controller
 
     public function profile()
     {
-        return view('user.settings.profile');
+        $user = User::findOrFail(auth(config('fortify.guard'))->user()->id);
+
+        return view('user.settings.profile',compact('user'));
     }
 
     public function updateProfile(Request $request)
     {
+        $request->validate([
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'phone' => 'required|regex:/^[+][0-9]{9,14}/',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'address' => 'required',
+            'zip_code' => 'required',
+            'avatar' => 'nullable|mimes:jpg,png,jpeg'
+        ],[
+            'phone.regex' => 'phone must be internatonal format'
+        ]);
+
+        $user = User::findOrFail(auth(config('fortify.guard'))->user()->id);
+        $data = $request->except(['_token','avatar']);
+        if($request->hasFile('avatar'))
+        {
+            $dir = public_path(config('dir.profile'));
+            if($user->avatar && is_file($dir.$user->avatar)) unlink($dir.$user->avatar);
+
+            $filename = str_replace(' ','-',$dir.now()->toDateTimeString().'.'.$request->file('avatar')->extension());
+            file_put_contents($filename,$request->file('avatar')->get());
+            $data['avatar'] = basename($filename);
+        }
+        $user->update($data);
+        session()->flash('message','Profile updated');
+        return back();
 
     }
 }

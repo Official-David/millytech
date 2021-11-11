@@ -1,2 +1,4 @@
 receipts/*
 cards/*
+profile/*
+!profile/default.png
