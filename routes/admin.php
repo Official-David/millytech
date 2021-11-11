@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\TradeController;
 use App\Http\Controllers\Admin\GiftCardController;
-use App\Http\Controllers\CurrencyController;
 
 Route::get('/', function(){
     return view('admin.index');
@@ -22,5 +22,8 @@ Route::resource('giftcards', GiftCardController::class)->except(['show','destroy
 Route::get('giftcards/add-currency', [GiftCardController::class,'addCurrency'])->name('giftcards.add');
 Route::get('giftcards/{id}/destroy', [GiftCardController::class,'destroy'])->name('giftcards.destroy');
 
-Route::resource('currencies', CurrencyController::class);
-
+Route::prefix('settings')->name('settings.')->group(function(){
+    Route::resource('admin', AdminController::class);
+    Route::get('password',[AdminController::class, 'password'])->name('password');
+    Route::post('password',[AdminController::class, 'changePassword'])->name('password.change');
+});

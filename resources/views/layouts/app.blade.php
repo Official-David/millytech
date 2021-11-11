@@ -157,7 +157,8 @@
                                     <img src="{{ profile_picture() }}" width="20" alt="" />
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
-                                    <a href="app-profile.html" class="dropdown-item ai-icon">
+                                    @if (request()->isUser())
+                                    <a href="{{ route('user.settings.profile') }}" class="dropdown-item ai-icon">
                                         <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary"
                                             width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -166,6 +167,7 @@
                                         </svg>
                                         <span class="ms-2">Profile </span>
                                     </a>
+                                    @endif
                                     {{-- <a href="email-inbox.html" class="dropdown-item ai-icon">
                                         <svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success"
                                             width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"

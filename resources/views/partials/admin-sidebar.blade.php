@@ -34,8 +34,9 @@
             <span class="nav-text">Settings</span>
         </a>
         <ul aria-expanded="false">
-            <li><a href="{{ route('admin.currencies.index') }}">Admins</a></li>
-            <li><a href="">Contact Details</a></li>
+            <li><a href="{{ route('admin.settings.admin.index') }}">Admins</a></li>
+            <li><a href="{{ route('admin.settings.password') }}">Change password</a></li>
+            {{-- <li><a href="">Contact Details</a></li> --}}
         </ul>
     </li>
 </ul>

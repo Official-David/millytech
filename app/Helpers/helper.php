@@ -35,9 +35,9 @@ function favicon()
     return logo();
 }
 
-function profile_picture()
+function profile_picture($avatar = 'default.png')
 {
-    $avatar = auth('user')->user()->avatar ?? 'default.png';
+    if(request()->isUser() && auth('user')->user()->avatar) $avatar =  auth('user')->user()->avatar;
     return asset(config('dir.profile').$avatar);
 }
 
