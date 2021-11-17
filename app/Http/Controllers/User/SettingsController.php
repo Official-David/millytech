@@ -27,7 +27,15 @@ class SettingsController extends Controller
         ]);
 
         $user = User::findOrFail(auth(config('fortify.guard'))->user()->id);
-        $user->bank()->update($request->except('_token'));
+
+        if(!$user->bank){
+            $user->bank()->create($request->except('_token'));
+            session()->flash('message','Bank details added successfully');
+        } else{
+            session()->flash('message','Bank details updated successfully');
+            $user->bank()->update($request->except('_token'));
+        }
+
         return back();
     }
 

@@ -15,19 +15,19 @@
 
                     <div class="form-group pt-5">
                         <label for=""><strong>Bank name</strong></label>
-                        <input type="text" name="bank_name" id="bank_name" class="form-control fs-12" placeholder="Enter bank name" value="{{$user->bank?->bank_name}}">
+                        <input type="text" name="bank_name" id="bank_name" class="form-control fs-12" placeholder="Enter bank name" value="{{ old('bank_name') ?? $user->bank?->bank_name}}">
                         <x-error key="bank_name" />
                     </div>
 
                     <div class="form-group">
                         <label for=""><strong>Account number</strong></label>
-                        <input type="text" name="account_number" class="form-control fs-12" placeholder="Enter account number" value="{{$user->bank?->account_number}}">
+                        <input type="text" name="account_number" class="form-control fs-12" placeholder="Enter account number" value="{{ old('account_number') ?? $user->bank?->account_number}}">
                         <x-error key="account_number" />
                     </div>
 
                     <div class="form-group">
                         <label for=""><strong>Account name</strong></label>
-                        <input type="text" name="account_name" class="form-control fs-12" placeholder="Enter account name"value="{{$user->bank?->account_name}}">
+                        <input type="text" name="account_name" class="form-control fs-12" placeholder="Enter account name"value="{{ old('account_name') ?? $user->bank?->account_name}}">
                         <x-error key="account_name" />
                     </div>
 

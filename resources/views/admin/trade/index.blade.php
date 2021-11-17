@@ -33,7 +33,7 @@
                                 <td>{{$trade->tradeable->name}}</td>
                                 <td>{{ $trade->amount }}</td>
                                 <td>{{ $trade->rate }}</td>
-                                <td>&#8358;{{ number_format($trade->total) }}</td>
+                                <td>{{ format_money($trade->total) }}</td>
                                 <td>
                                     @foreach ($trade->meta ?? [] as $k => $meta)
                                     <strong>{{ucfirst($k)}}</strong>:{{$meta}} @if(!$loop->last) <br> @endif
@@ -152,9 +152,19 @@
 @push('js')
 <script>
 
-    let uploaded = e => {
-        let url = URL.createObjectURL(e.target.files[0])
-          document.getElementById('recept-preview').innerHTML = `<img src="${url}" >`
+    // let uploaded = e => {
+    //     let url = URL.createObjectURL(e.target.files[0])
+    //       document.getElementById('recept-preview').innerHTML = `<img src="${url}" >`
+    // }
+
+    let copy = () => {
+        let txt = document.getElementById('account_number')
+        txt.select()
+        txt.setSelectionRange(0,99999)
+
+        navigator.clipboard.writeText(txt.value)
+        txt.blur()
+        alert('copied to clipboard')
     }
 
     document.getElementById('pay').addEventListener('click', e => {

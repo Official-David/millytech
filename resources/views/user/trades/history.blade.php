@@ -33,7 +33,7 @@
                                 <td>{{$trade->tradeable->name}}</td>
                                 <td>{{ $trade->amount }}</td>
                                 <td>{{ $trade->rate }}</td>
-                                <td>&#8358;{{ number_format($trade->total) }}</td>
+                                <td>{{ format_money($trade->total) }}</td>
                                 <td>
                                     @foreach ($trade->meta ?? [] as $k => $meta)
                                         <strong>{{ucfirst($k)}}</strong>:{{$meta}} @if(!$loop->last) <br> @endif

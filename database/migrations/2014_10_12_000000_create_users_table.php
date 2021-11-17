@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('address')->nullable();
             $table->string('zip_code')->nullable();
             $table->string('avatar')->nullable();
+            $table->enum('status', ['active', 'inactive','pending'])->default('pending');
             $table->rememberToken();
             $table->timestamps();
         });

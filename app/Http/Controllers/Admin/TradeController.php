@@ -40,11 +40,11 @@ class TradeController extends Controller
 
     public function pay(Request $request, $id)
     {
-        $request->validate(['receipt' =>'required|mimes:png,jpg,jpeg']);
-        $filename = str_replace(' ','-',rand().now()->toDateTimeString().'.'.$request->file('receipt')->extension());
-        $request->file('receipt')->move(public_path(config('dir.receipts')),$filename);
+        // $request->validate(['receipt' =>'required|mimes:png,jpg,jpeg']);
+        // $filename = str_replace(' ','-',rand().now()->toDateTimeString().'.'.$request->file('receipt')->extension());
+        // $request->file('receipt')->move(public_path(config('dir.receipts')),$filename);
         $trade = Trade::findOrFail($id);
-        $trade->receipt = $filename;
+        // $trade->receipt = $filename;
         $trade->status = 'paid';
         $trade->save();
         return back();

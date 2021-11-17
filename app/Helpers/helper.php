@@ -41,6 +41,11 @@ function profile_picture($avatar = 'default.png')
     return asset(config('dir.profile').$avatar);
 }
 
+function format_money(int $amount)
+{
+    return '₦'.number_format($amount);
+}
+
 function trade_status($status)
 {
     switch ($status) {
@@ -55,6 +60,20 @@ function trade_status($status)
             break;
         default:
             $status = 'info';
+    }
+    return $status;
+}
+
+function user_status($status){
+    switch ($status) {
+        case 'inactive':
+            $status = 'danger';
+            break;
+        case 'pending':
+            $status = 'warning';
+            break;
+        default:
+            $status = 'success';
     }
     return $status;
 }

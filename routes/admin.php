@@ -3,12 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TradeController;
 use App\Http\Controllers\Admin\GiftCardController;
 
-Route::get('/', function(){
-    return view('admin.index');
-})->name('index');
+Route::get('/', [DashboardController::class, 'dashboard'])->name('index');
 
 Route::resource('user', UserController::class);
 
@@ -23,7 +22,7 @@ Route::get('giftcards/add-currency', [GiftCardController::class,'addCurrency'])-
 Route::get('giftcards/{id}/destroy', [GiftCardController::class,'destroy'])->name('giftcards.destroy');
 
 Route::prefix('settings')->name('settings.')->group(function(){
-    Route::resource('admin', AdminController::class);
+    Route::resource('admin', AdminController::class)->middleware('can:super-admin');
     Route::get('password',[AdminController::class, 'password'])->name('password');
     Route::post('password',[AdminController::class, 'changePassword'])->name('password.change');
 });
