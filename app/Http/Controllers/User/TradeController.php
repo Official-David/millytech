@@ -37,7 +37,6 @@ class TradeController extends Controller
         $currency = $giftcard->currencies()->where('id',$request->currency)->first();
 
         $filename = Storage::putFile(config('dir.card_image'), $request->file('card_image'));
-        dd($filename);
 
         $data = array_merge([
             'user_id' => $user->id,
