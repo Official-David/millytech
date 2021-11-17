@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Profile')
+@section('title', 'Edit user')
 @section('content')
 <div class="container-fluid">
     <div class="mb-sm-4 d-flex flex-wrap align-items-center text-head">
@@ -10,9 +10,9 @@
     <div class="col-lg-7 col-sm-12 m-auto">
         <div class="card">
             <div class="card-body">
-                <form action="{{route('user.settings.profile.update')}}" method="POST" id="form" class="row" enctype="multipart/form-data">
+                <form action="{{route('admin.user.update',$user->id)}}" method="POST" id="form" class="row" enctype="multipart/form-data">
                     @csrf
-
+                    @method('PUT')
                     <div class="form-group col-lg-6">
                         <label for=""><strong>Firstname</strong></label>
                         <input type="test" name="firstname" id="firstname" class="form-control fs-12" placeholder="Firstname" value="{{$user->firstname ?? old('firstname')}}">
@@ -34,7 +34,7 @@
                     <div class="form-group col-lg-5">
                         <label for=""><strong>Gender</strong></label>
                         <select name="gender" id="gender" class="form-select fs-12" data-gender="{{$user->gender}}">
-                            <option value="">Choose your gender</option>
+                            <option value="">Choose user gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                             <option value="rather not say">Rather not say</option>
@@ -327,7 +327,7 @@
                         <x-error key="avatar" />
                     </div>
                     <div class="text-center" id="preview">
-                            <img src="{{profile_picture()}}" alt="">
+                            <img src="{{profile_picture($user->avatar ?? 'default.png')}}" alt="">
                     </div>
 
 

@@ -12,24 +12,30 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <div class="text-end">
-                    <a href="{{ route('admin.user.create') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
-                        Add</a>
-                </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-responsive-sm">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th></th>
+                                <th class="fs-14">Firstname</th>
+                                <th class="fs-14">Lastname</th>
+                                <th class="fs-14">Email</th>
+                                <th class="fs-14">Status</th>
+                                <th class="fs-14">Joined</th>
+                                <th class="fs-14"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($users as $user)
-                            <tr>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
+                            <tr class="fs-12">
+                                <td>{{ $user->firstname }}</td>
+                                    <td>{{ $user->lastname }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>
+                                        <span class="badge badge-outline-{{user_status($user->status)}}">
+                                            {{strtoupper($user->status) }}
+                                        </span>
+                                    </td>
+                                    <td>{{ $user->created_at->diffForHumans() }}</td>
                                 <td>
                                     <div class="dropdown dropdown-sm">
                                         <button type="button" class="btn btn-success light sharp"
@@ -44,7 +50,11 @@
                                             </svg>
                                         </button>
                                         <div class="dropdown-menu" style="margin: 0px;">
-                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="{{route('admin.user.edit',$user->id)}}">Edit</a>
+                                            @if ($user->status != 'pending')
+                                                <a class="dropdown-item" href="{{route('admin.user.show',$user->id)}}">{{$user->status == 'active'?'Deactivate':'Activate'}} Account</a>
+                                            @endif
+                                            <a class="dropdown-item" href="#">Login as</a>
                                             <a class="dropdown-item" href="#">Delete</a>
                                         </div>
                                     </div>

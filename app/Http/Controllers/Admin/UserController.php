@@ -48,7 +48,17 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        if($user->status == 'pending') return back()->with('error','Status not changed. User have not completed profile update.');
+
+        if($user->status == 'active')
+        {
+            $user->status = 'inactive';
+        }else{
+            $user->status = 'active';
+        }
+        $user->save();
+        return back()->with('User status changed successfully');
     }
 
     /**
@@ -59,7 +69,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('admin.user.edit',compact('user'));
     }
 
     /**
@@ -71,7 +82,38 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'phone_number' => 'required|regex:/^[+][0-9]{9,14}/',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'address' => 'required',
+            'zip_code' => 'required',
+            'gender' => 'required',
+            'avatar' => 'nullable|mimes:jpg,png,jpeg'
+        ],[
+            'phone.regex' => 'phone must be internatonal format'
+        ]);
+        $user = User::findOrFail($id);
+        $data = $request->except(['_token','avatar']);
+        if($request->hasFile('avatar'))
+        {
+            $dir = public_path(config('dir.profile'));
+            if($user->avatar && is_file($dir.$user->avatar)) unlink($dir.$user->avatar);
+
+            $filename = str_replace(' ','-',$dir.now()->toDateTimeString().'.'.$request->file('avatar')->extension());
+            file_put_contents($filename,$request->file('avatar')->get());
+            $data['avatar'] = basename($filename);
+        }
+        if($user->status == 'pending')
+        {
+            $data['status'] = 'active';
+        }
+        $user->update($data);
+        session()->flash('message','User data updated');
+        return back();
     }
 
     /**

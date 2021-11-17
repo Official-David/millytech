@@ -86,6 +86,7 @@ class SettingsController extends Controller
             'city' => 'required',
             'address' => 'required',
             'zip_code' => 'required',
+            'gender' => 'required',
             'avatar' => 'nullable|mimes:jpg,png,jpeg'
         ],[
             'phone.regex' => 'phone must be internatonal format'
@@ -101,6 +102,10 @@ class SettingsController extends Controller
             $filename = str_replace(' ','-',$dir.now()->toDateTimeString().'.'.$request->file('avatar')->extension());
             file_put_contents($filename,$request->file('avatar')->get());
             $data['avatar'] = basename($filename);
+        }
+        if($user->status == 'pending')
+        {
+            $data['status'] = 'active';
         }
         $user->update($data);
         session()->flash('message','Profile updated');

@@ -13,7 +13,6 @@
     <div class="mb-3">
         <label class="mb-1"><strong>Email</strong></label>
         <input type="email" class="form-control" value="{{ old('email') }}" name="email" placeholder="Email Address">
-        <x-error key="email" />
     </div>
     <div class="mb-3">
         <label class="mb-1"><strong>Password</strong></label>
