@@ -33,7 +33,7 @@
 
                     <div class="form-group col-lg-5">
                         <label for=""><strong>Gender</strong></label>
-                        <select name="gender" id="gender" class="form-select fs-12" data-gender="{{$user->gender}}">
+                        <select name="gender" id="gender" class="form-select status-switch wide form-select-sm form-control form-control-sm fs-12" data-gender="{{$user->gender}}">
                             <option value="">Choose your gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
@@ -44,7 +44,7 @@
 
                     <div class="form-group">
                         <label for="">Country</label>
-                        <select id="country" name="country" class="form-select fs-12 bg-none" data-country="{{$user->country ?? old('country')}}">
+                        <select id="country" name="country" class="form-select status-switch wide form-select-sm form-control form-control-sm fs-12" data-country="{{$user->country ?? old('country')}}">
                             <option value="">Select country</option>
                             <option value="Afganistan">Afghanistan</option>
                             <option value="Albania">Albania</option>
@@ -344,6 +344,9 @@
 
 @push('js')
     <script>
+        $(()=>{
+    $('select').niceSelect();
+    })
         document.getElementById('avatar').onchange = e => {
             let avatar = e.target.files[0];
             document.getElementById('preview').innerHTML = `<img src='${URL.createObjectURL(avatar)}' />`

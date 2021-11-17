@@ -25,8 +25,6 @@
     <!-- FAVICONS ICON -->
     <link rel="shortcut icon" type="image/png" href="{{ favicon() }}" />
     <link href="{{asset('back/vendor/jquery-nice-select/css/nice-select.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('back/vendor/dotted-map/css/contrib/jquery.smallipop-0.3.0.min.css')}}"
-        type="text/css" media="all" />
     <link rel="stylesheet" href="{{asset('back/vendor/toastr/css/toastr.min.css')}}">
 
     <!-- Style css -->
@@ -36,14 +34,78 @@
             margin-bottom: 10px;
         }
 
-        input[type=text], select{
+        input[type=text],
+        select {
             border-color: #eee !important;
         }
 
-        .form-select{
+        .form-select {
             height: 2.75rem;
         }
 
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* The slider */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            text-align: center;
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
     </style>
     @stack('css')
 
@@ -74,7 +136,7 @@
         ***********************************-->
         <div class="nav-header">
             <a href="/" class="brand-logo">
-                <img src="{{ logo() }}" alt="" width="80">
+                <img src="{{ logo() }}" alt="" width="70">
             </a>
             <div class="nav-control">
                 <div class="hamburger">
@@ -95,15 +157,21 @@
                     <div class="collapse navbar-collapse justify-content-between">
                         <div class="header-left">
                             <div class="nav-item">
-                                <div class="input-group search-area">
+                                {{-- <div class="input-group search-area">
                                     <input type="text" class="form-control" placeholder="Search here">
                                     <span class="input-group-text"><a href="javascript:void(0)"><i
                                                 class="flaticon-381-search-2"></i></a></span>
-                                </div>
+                                </div> --}}
+                                <i class="fa fa-sun fs-16"></i>
+                                <label class="switch" for="theme-toggle">
+                                    <input type="checkbox" id="theme-toggle">
+                                    <span class="slider round"></span>
+                                </label>
+                                <i class="fa fa-moon fs-16"></i>
                             </div>
                         </div>
                         <ul class="navbar-nav header-right">
-                            <li class="nav-item dropdown notification_dropdown">
+                            {{-- <li class="nav-item dropdown notification_dropdown">
                                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
                                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -120,10 +188,11 @@
                                     <div id="DZ_W_Notification1" class="widget-media dz-scroll p-3"
                                         style="height:380px;">
                                         <ul class="timeline">
-                                            {{-- <li>
+                                            <li>
                                                 <div class="timeline-panel">
                                                     <div class="media me-2">
-                                                        <img alt="image" width="50" src="/assets/back/images/avatar/1.jpg">
+                                                        <img alt="image" width="50"
+                                                            src="/assets/back/images/avatar/1.jpg">
                                                     </div>
                                                     <div class="media-body">
                                                         <h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -141,18 +210,20 @@
                                                         <small class="d-block">29 July 2020 - 02:26 PM</small>
                                                     </div>
                                                 </div>
-                                            </li> --}}
+                                            </li>
                                         </ul>
                                     </div>
-                                    {{-- <a class="all-notification" href="javascript:void(0);">See all notifications <i
-                                            class="ti-arrow-end"></i></a> --}}
+                                    <a class="all-notification" href="javascript:void(0);">See all notifications <i
+                                            class="ti-arrow-end"></i></a>
                                 </div>
-                            </li>
+                            </li>--}}
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
                                     <div class="header-info me-3">
-                                        <span class="fs-18 font-w500 text-end">{{ auth(config('fortify.guard'))->user()->name }}</span>
-                                        <small class="text-end fs-14 font-w400">{{ auth(config('fortify.guard'))->user()->email }}</small>
+                                        <span class="fs-18 font-w500 text-end">{{
+                                            auth(config('fortify.guard'))->user()->name }}</span>
+                                        <small class="text-end fs-14 font-w400">{{
+                                            auth(config('fortify.guard'))->user()->email }}</small>
                                     </div>
                                     <img src="{{ profile_picture() }}" width="20" alt="" />
                                 </a>
@@ -212,7 +283,7 @@
         <div class="deznav">
             <div class="deznav-scroll">
                 @if (request()->isAdmin())
-                    @include('partials.admin-sidebar')
+                @include('partials.admin-sidebar')
                 @elseif(request()->isUser())
                 @include('partials.sidebar')
                 @endif
@@ -273,25 +344,18 @@
     <!-- Chart piety plugin files -->
     <script src="{{asset('back/vendor/peity/jquery.peity.min.js')}}"></script>
     <!-- JS for dotted map -->
-    <script src="{{asset('back/vendor/dotted-map/js/contrib/jquery.smallipop-0.3.0.min.js')}}"></script>
-    <script src="{{asset('back/vendor/dotted-map/js/contrib/suntimes.js')}}"></script>
-    <script src="{{asset('back/vendor/dotted-map/js/contrib/color-0.4.1.js')}}"></script>
-
-    <script src="{{asset('back/vendor/dotted-map/js/world.js')}}"></script>
-    <script src="{{asset('back/vendor/dotted-map/js/smallimap.js')}}"></script>
 
 
 
     <script src="{{asset('back/js/custom.min.js')}}"></script>
     <script src="{{asset('back/js/deznav-init.js')}}"></script>
-    <script src="{{asset('back/js/styleSwitcher.js')}}"></script>
     <script src="{{asset('back/vendor/toastr/js/toastr.min.js')}}"></script>
     <x-live-chat />
 
     <script>
         function toast(message, type = 'success') {
             let data = {
-                timeOut: 500000000,
+                timeOut: 5000,
                 closeButton: !0,
                 debug: !1,
                 newestOnTop: !0,
@@ -307,7 +371,7 @@
                 showMethod: "fadeIn",
                 hideMethod: "fadeOut",
                 tapToDismiss: !1
-            };
+            }
             if (type == 'success') {
                 toastr.success(message, "Sucess", data)
             } else if(type == 'info'){
@@ -316,19 +380,51 @@
                 toastr.error(message, "Error", data)
             }
         }
+
+        let storage = window.localStorage
+        let theme = storage.getItem('theme')
+        let bodyTag = document.querySelector('body')
+        let toggler = document.querySelector('#theme-toggle')
+
+        document.addEventListener("DOMContentLoaded", e => {
+            if(theme == null)
+            {
+                theme = bodyTag.dataset.themeVersion
+                storage.setItem('theme',theme)
+            }else{
+                if(theme == 'dark'){
+                    toggler.setAttribute('checked',true)
+                }
+                bodyTag.dataset.themeVersion = theme
+            }
+        })
+        toggler.addEventListener('change',e => {
+            element = e.target
+            if(element.hasAttribute('checked')){
+                element.removeAttribute('checked')
+                storage.setItem('theme','light')
+                bodyTag.dataset.themeVersion = 'light'
+            }else{
+                element.setAttribute('checked',true)
+                storage.setItem('theme','dark')
+                bodyTag.dataset.themeVersion = 'dark'
+            }
+
+        })
     </script>
 
-    @if(session()->has('success'))
-        <script>
-            toast("{{session()->get('success')}}")
-        </script>
+    @if(session()->has('message'))
+    <script>
+        toast("{{session()->get('message')}}")
+    </script>
     @endif
 
     @if(session()->has('error'))
-        <script>
-            toast("{{session()->get('error')}}","error")
-        </script>
+    <script>
+        toast("{{session()->get('error')}}","error")
+    </script>
     @endif
+
 
     @stack('js')
 

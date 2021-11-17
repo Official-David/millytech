@@ -10,30 +10,34 @@
     <div class="col-lg-7 col-sm-12 m-auto">
         <div class="card">
             <div class="card-body">
-                <form action="{{route('admin.user.update',$user->id)}}" method="POST" id="form" class="row" enctype="multipart/form-data">
+                <form action="{{route('admin.user.update',$user->id)}}" method="POST" id="form" class="row"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="form-group col-lg-6">
                         <label for=""><strong>Firstname</strong></label>
-                        <input type="test" name="firstname" id="firstname" class="form-control fs-12" placeholder="Firstname" value="{{$user->firstname ?? old('firstname')}}">
+                        <input type="test" name="firstname" id="firstname" class="form-control fs-12"
+                            placeholder="Firstname" value="{{$user->firstname ?? old('firstname')}}">
                         <x-error key="firstname" />
                     </div>
 
                     <div class="form-group col-lg-6">
                         <label for=""><strong>Lastname</strong></label>
-                        <input type="text" name="lastname" id="lastname" class="form-control fs-12" placeholder="Lastname" value="{{$user->lastname ?? old('lastname')}}">
+                        <input type="text" name="lastname" id="lastname" class="form-control fs-12"
+                            placeholder="Lastname" value="{{$user->lastname ?? old('lastname')}}">
                         <x-error key="lastname" />
                     </div>
 
                     <div class="form-group col-lg-7">
                         <label for=""><strong>Phone number</strong></label>
-                        <input type="text" name="phone_number" class="form-control fs-12" placeholder="Phone number" value="{{$user->phone_number ?? old('phone_number')}}">
+                        <input type="text" name="phone_number" class="form-control fs-12" placeholder="Phone number"
+                            value="{{$user->phone_number ?? old('phone_number')}}">
                         <x-error key="phone_number" />
                     </div>
 
                     <div class="form-group col-lg-5">
                         <label for=""><strong>Gender</strong></label>
-                        <select name="gender" id="gender" class="form-select fs-12" data-gender="{{$user->gender}}">
+                        <select name="gender" id="gender" class="form-select status-switch wide form-select-sm form-control form-control-sm fs-12" data-gender="{{$user->gender}}">
                             <option value="">Choose user gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
@@ -44,7 +48,8 @@
 
                     <div class="form-group">
                         <label for="">Country</label>
-                        <select id="country" name="country" class="form-select fs-12 bg-none" data-country="{{$user->country ?? old('country')}}">
+                        <select id="country" name="country" class="form-select status-switch wide form-select-sm form-control form-control-sm fs-12"
+                            data-country="{{$user->country ?? old('country')}}">
                             <option value="">Select country</option>
                             <option value="Afganistan">Afghanistan</option>
                             <option value="Albania">Albania</option>
@@ -297,37 +302,42 @@
 
                     <div class="form-group col-lg-6">
                         <label for=""><strong>State/Province/Region</strong></label>
-                        <input type="text" name="state" class="form-control fs-12" placeholder="State" value="{{$user->state ?? old('state')}}">
+                        <input type="text" name="state" class="form-control fs-12" placeholder="State"
+                            value="{{$user->state ?? old('state')}}">
                         <x-error key="state" />
                     </div>
 
                     <div class="form-group col-lg-6">
                         <label for=""><strong>City</strong></label>
-                        <input type="text" name="city" class="form-control fs-12" placeholder="City" value="{{$user->city ?? old('city')}}">
+                        <input type="text" name="city" class="form-control fs-12" placeholder="City"
+                            value="{{$user->city ?? old('city')}}">
                         <x-error key="city" />
                     </div>
 
                     <div class="form-group col-lg-8">
                         <label for=""><strong>Address</strong></label>
-                        <input type="text" name="address" class="form-control fs-12" placeholder="Address" value="{{$user->address ?? old('address')}}">
+                        <input type="text" name="address" class="form-control fs-12" placeholder="Address"
+                            value="{{$user->address ?? old('address')}}">
                         <x-error key="address" />
                     </div>
 
                     <div class="form-group col-lg-4">
                         <label for=""><strong>Postal / Zip code</strong></label>
-                        <input type="text" name="zip_code" class="form-control fs-12" placeholder="Postal / Zip code" value="{{$user->zip_code ?? old('zip_code')}}">
+                        <input type="text" name="zip_code" class="form-control fs-12" placeholder="Postal / Zip code"
+                            value="{{$user->zip_code ?? old('zip_code')}}">
                         <x-error key="zip_code" />
                     </div>
 
                     <div class="form-group">
-                        <input type="file" name="avatar" id="avatar" style="display: none;" accept="image/png,image/jpeg,image/jpg">
+                        <input type="file" name="avatar" id="avatar" style="display: none;"
+                            accept="image/png,image/jpeg,image/jpg">
                         <label for="avatar" class="btn btn-sm btn-outline-primary">
                             Profile picture <i class="fa fa-upload"></i>
                         </label>
                         <x-error key="avatar" />
                     </div>
                     <div class="text-center" id="preview">
-                            <img src="{{profile_picture($user->avatar ?? 'default.png')}}" alt="">
+                        <img src="{{profile_picture($user->avatar ?? 'default.png')}}" alt="">
                     </div>
 
 
@@ -343,7 +353,10 @@
 @endsection
 
 @push('js')
-    <script>
+<script>
+    $(()=>{
+    $('select').niceSelect();
+    })
         document.getElementById('avatar').onchange = e => {
             let avatar = e.target.files[0];
             document.getElementById('preview').innerHTML = `<img src='${URL.createObjectURL(avatar)}' />`
@@ -355,15 +368,15 @@
         let gender = document.getElementById('gender')
         gender.value = gender.dataset.gender;
 
-    </script>
+</script>
 @endpush
 
 @push('css')
-    <style>
-        #preview img{
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-        }
-    </style>
+<style>
+    #preview img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+    }
+</style>
 @endpush

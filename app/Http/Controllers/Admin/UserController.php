@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -58,7 +59,7 @@ class UserController extends Controller
             $user->status = 'active';
         }
         $user->save();
-        return back()->with('User status changed successfully');
+        return back()->with('message','User status changed');
     }
 
     /**
@@ -100,11 +101,11 @@ class UserController extends Controller
         $data = $request->except(['_token','avatar']);
         if($request->hasFile('avatar'))
         {
-            $dir = public_path(config('dir.profile'));
-            if($user->avatar && is_file($dir.$user->avatar)) unlink($dir.$user->avatar);
+            $dir = config('dir.profile');
+            if($user->avatar && Storage::exists($dir.$user->avatar)) Storage::delete($dir.$user->avatar);
 
-            $filename = str_replace(' ','-',$dir.now()->toDateTimeString().'.'.$request->file('avatar')->extension());
-            file_put_contents($filename,$request->file('avatar')->get());
+            $filename = Storage::putFile($dir,$request->file('avatar'));
+
             $data['avatar'] = basename($filename);
         }
         if($user->status == 'pending')
@@ -124,6 +125,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->trades()->delete();
+        $user->bank()->delete();
+        $user->delete();
+        return back()->with('message','User deleted');
     }
 }

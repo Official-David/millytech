@@ -45,7 +45,7 @@
                                     <span class="badge badge-outline-{{trade_status($trade->status)}}"> {{
                                         strtoupper($trade->status) }} </span>
                                     @else
-                                    <select id="" class="form-select small status-switch" data-id="{{$trade->id}}">
+                                    <select onchange="changeStatus(event)" id="" class="form-select status-switch wide form-select-sm form-control form-control-sm fs-12" data-id="{{$trade->id}}">
                                         @foreach (['pending','processing','rejected'] as $status)
                                         <option value="{{$status}}">{{strtoupper($status)}}</option>
                                         @endforeach
@@ -156,7 +156,9 @@
     //     let url = URL.createObjectURL(e.target.files[0])
     //       document.getElementById('recept-preview').innerHTML = `<img src="${url}" >`
     // }
-
+    $(()=>{
+    $('select').niceSelect();
+    })
     let copy = () => {
         let txt = document.getElementById('account_number')
         txt.select()
@@ -191,9 +193,9 @@
             .catch(err => console.log(err))
         }
 
-        document.querySelectorAll('.status-switch').forEach((item) => {
-            item.addEventListener('change', e => {
-                fetch(`${location.pathname}/change-status/${e.target.dataset.id}`,{
+        let changeStatus = e => {
+            e.preventDefault();
+            fetch(`${location.pathname}/change-status/${e.target.dataset.id}`,{
                     method: 'post',
                     headers:{
                         "Content-Type": "application/json",
@@ -213,10 +215,16 @@
                 })
                 .then(res => {
                     toast('Status changed successfully')
-                    location.reload()
+                    setTimeout(() => location.reload(),1200);
+
                 })
                 .catch(err => console.log(err))
-            })
-        })
+        }
+
+        // document.querySelectorAll('.status-switch').forEach((item) => {
+        //     item.addEventListener('change', e => {
+
+        //     })
+        // })
 </script>
 @endpush

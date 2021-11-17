@@ -54,8 +54,11 @@
                                             @if ($user->status != 'pending')
                                                 <a class="dropdown-item" href="{{route('admin.user.show',$user->id)}}">{{$user->status == 'active'?'Deactivate':'Activate'}} Account</a>
                                             @endif
-                                            <a class="dropdown-item" href="#">Login as</a>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            <a class="dropdown-item delete-user">Delete</a>
+                                            <form action="{{route('admin.user.destroy',$user->id)}}" method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                            </form>
                                         </div>
                                     </div>
                                 </td>
@@ -76,3 +79,18 @@
     </div>
 </div>
 @endsection
+
+@push('js')
+    <script>
+        document.querySelectorAll('a.delete-user').forEach(element => {
+
+            element.addEventListener('click', e => {
+                e.preventDefault();
+                if(!confirm('Are you sure you want to delete this user?','Yes','No')) return;
+
+                e.target.nextElementSibling.submit();
+
+            })
+        });
+    </script>
+@endpush

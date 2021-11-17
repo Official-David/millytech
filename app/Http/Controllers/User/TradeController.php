@@ -8,6 +8,7 @@ use App\Models\GiftCard;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Trade;
+use Illuminate\Support\Facades\Storage;
 
 class TradeController extends Controller
 {
@@ -34,8 +35,10 @@ class TradeController extends Controller
         }
         $giftcard = GiftCard::findOrFail($request->giftcard);
         $currency = $giftcard->currencies()->where('id',$request->currency)->first();
-        $filename = str_replace(' ','-',now()->toDateTimeString().'.'.$request->file('card_image')->extension());
-        $request->file('card_image')->move(public_path(config('dir.card_image')),$filename);
+
+        $filename = Storage::putFile(config('dir.card_image'), $request->file('card_image'));
+        dd($filename);
+
         $data = array_merge([
             'user_id' => $user->id,
             'total' =>$currency->rate * $request->amount,

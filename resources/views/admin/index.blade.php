@@ -7,6 +7,7 @@
     <div class="mb-sm-4 d-flex flex-wrap align-items-center text-head">
         <h2 class="mb-3 me-auto">Dashboard</h2>
     </div>
+    @can('super-admin')
     <div class="row">
         <div class="col-xl-3 col-sm-6">
             <div class="card">
@@ -64,6 +65,8 @@
             </div>
         </div>
     </div>
+    @endcan
+
     <div class="row">
         <div class="col-md-6">
             <div class="card">
@@ -111,6 +114,7 @@
             </div>
         </div>
     </div>
+    @can('super-admin')
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -142,7 +146,7 @@
                                         </span>
                                     </td>
                                     <td>{{ $user->created_at->diffForHumans() }}</td>
-                                    <td> <a href=""> <i class="fa fa-eye"></i> Profile</a></td>
+                                    <td> <a href="{{ route('admin.user.edit',$user->id) }}"> <i class="fa fa-eye"></i> Profile</a></td>
                                 </tr>
                                 @empty
                                 <td colspan="4" class="text-center text-muted">No users yet.</td>
@@ -160,6 +164,7 @@
             </div>
         </div>
     </div>
+    @endcan
 
 
 

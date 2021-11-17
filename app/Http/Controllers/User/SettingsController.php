@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Actions\Fortify\PasswordValidationRules;
 
 class SettingsController extends Controller
@@ -80,7 +81,7 @@ class SettingsController extends Controller
         $request->validate([
             'firstname' => 'required|string',
             'lastname' => 'required|string',
-            'phone' => 'required|regex:/^[+][0-9]{9,14}/',
+            'phone_number' => 'required|regex:/^[+][0-9]{9,14}/',
             'country' => 'required',
             'state' => 'required',
             'city' => 'required',
@@ -96,11 +97,11 @@ class SettingsController extends Controller
         $data = $request->except(['_token','avatar']);
         if($request->hasFile('avatar'))
         {
-            $dir = public_path(config('dir.profile'));
-            if($user->avatar && is_file($dir.$user->avatar)) unlink($dir.$user->avatar);
+            $dir = config('dir.profile');
 
-            $filename = str_replace(' ','-',$dir.now()->toDateTimeString().'.'.$request->file('avatar')->extension());
-            file_put_contents($filename,$request->file('avatar')->get());
+            if($user->avatar && Storage::exists($dir.$user->avatar)) Storage::delete($dir.$user->avatar);
+
+            $filename = Storage::putFile($dir,$request->file('avatar'));
             $data['avatar'] = basename($filename);
         }
         if($user->status == 'pending')
