@@ -176,6 +176,10 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="text-center">
+                        <a href="{{route('user.trades.history')}}" class="btn btn-outline-success"><i
+                                class="fa fa-table"></i> View all</a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -16,20 +16,20 @@
                     <table class="table table-hover table-responsive-sm table-striped">
                         <thead>
                             <tr>
-                                <th>Card</th>
-                                <th>Amount</th>
-                                <th>Rate</th>
-                                <th>Total</th>
-                                <th>Info</th>
-                                <th>Type</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th></th>
+                                <th clas='fs-14'>Card</th>
+                                <th clas='fs-14'>Amount</th>
+                                <th clas='fs-14'>Rate</th>
+                                <th clas='fs-14'>Total</th>
+                                <th clas='fs-14'>Info</th>
+                                <th clas='fs-14'>Type</th>
+                                <th clas='fs-14'>Status</th>
+                                <th clas='fs-14'>Date</th>
+                                <th clas='fs-14'></th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($trades as $trade)
-                            <tr>
+                            <tr class="fs-12">
                                 <td>{{$trade->tradeable->name}}</td>
                                 <td>{{ $trade->amount }}</td>
                                 <td>{{ $trade->rate }}</td>

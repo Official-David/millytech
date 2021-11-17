@@ -23,8 +23,7 @@ class EnsureUserIsActive
                 return redirect()->route('user.settings.profile');
             }elseif($status == 'inactive'){
                 auth('user')->logout();
-                session()->flash('email','Your account is inactive, please contact support');
-                return redirect()->route('login');
+                return redirect()->route('login')->withErrors(['email'=>'Your account is inactive, please contact support']);
             }
         }
         return $next($request);

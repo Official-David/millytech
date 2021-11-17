@@ -9,6 +9,13 @@
     @endif
 </h4>
 <form action="{{ route('login') }}" method="POST">
+    @error('email')
+        <div class="alert alert-danger alert-dismissible fade show fs-12">
+                {{$message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+            </button>
+        </div>
+    @enderror
     @csrf
     <div class="mb-3">
         <label class="mb-1"><strong>Email</strong></label>

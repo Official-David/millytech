@@ -288,6 +288,48 @@
     <script src="{{asset('back/vendor/toastr/js/toastr.min.js')}}"></script>
     <x-live-chat />
 
+    <script>
+        function toast(message, type = 'success') {
+            let data = {
+                timeOut: 500000000,
+                closeButton: !0,
+                debug: !1,
+                newestOnTop: !0,
+                progressBar: !0,
+                positionClass: "toast-top-right",
+                preventDuplicates: !0,
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                tapToDismiss: !1
+            };
+            if (type == 'success') {
+                toastr.success(message, "Sucess", data)
+            } else if(type == 'info'){
+                toastr.info(message, "Info",data)
+            } else {
+                toastr.error(message, "Error", data)
+            }
+        }
+    </script>
+
+    @if(session()->has('success'))
+        <script>
+            toast("{{session()->get('success')}}")
+        </script>
+    @endif
+
+    @if(session()->has('error'))
+        <script>
+            toast("{{session()->get('error')}}","error")
+        </script>
+    @endif
+
     @stack('js')
 
 </body>

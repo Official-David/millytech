@@ -161,10 +161,9 @@
         let txt = document.getElementById('account_number')
         txt.select()
         txt.setSelectionRange(0,99999)
-
         navigator.clipboard.writeText(txt.value)
         txt.blur()
-        alert('copied to clipboard')
+        toast('Copied to clipboad','info')
     }
 
     document.getElementById('pay').addEventListener('click', e => {
@@ -213,7 +212,7 @@
                     return res.json()
                 })
                 .then(res => {
-                    alert('status changed');
+                    toast('Status changed successfully')
                     location.reload()
                 })
                 .catch(err => console.log(err))

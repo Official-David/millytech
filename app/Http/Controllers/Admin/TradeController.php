@@ -47,7 +47,7 @@ class TradeController extends Controller
         // $trade->receipt = $filename;
         $trade->status = 'paid';
         $trade->save();
-        return back();
+        return back()->with('success','Trade marked as paid');
     }
 
     /**

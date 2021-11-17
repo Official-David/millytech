@@ -64,7 +64,6 @@ class GiftCardController extends Controller
     public function edit($id)
     {
         $giftcard = GiftCard::findOrFail($id);
-
         return view('admin.giftcard.edit',compact('giftcard'));
     }
 
