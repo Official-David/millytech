@@ -12,7 +12,7 @@ function admin_domain()
 
 function front_domain()
 {
-    return config('doamin.front');
+    return config('domain.front');
 }
 
 /**

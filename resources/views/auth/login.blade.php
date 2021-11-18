@@ -42,8 +42,9 @@
         <button type="submit" class="btn btn-primary btn-block">Sign In</button>
     </div>
 </form>
-<div class="new-account mt-3 text-center">
-    <p>Go back <a class="text-primary" href=""> <i class="fa fa-home"></i> Home</a></p>
+<div class="new-account mt-3 d-flex justify-content-between">
+    <p><a class="text-primary" href="//{{front_domain()}}"> <i class="fa fa-home"></i> Home</a></p>
+    <p><a class="text-primary" href="{{url('/forgot-password')}}"></i> Forgot your password?</a></p>
 </div>
 </div>
 @endsection

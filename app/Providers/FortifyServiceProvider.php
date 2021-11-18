@@ -58,6 +58,10 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::registerView(fn() => view('auth.register'));
 
+        Fortify::requestPasswordResetLinkView(fn() => view('auth.passwords.forgot'));
+
+        Fortify::resetPasswordView(fn($request) => view('auth.passwords.reset',compact('request')));
+
         $this->app->singleton(AuthenticatedSessionController::class, ControllersAuthenticatedSessionController::class);
 
 
