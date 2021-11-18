@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from griya.dexignzone.com/xhtml/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 10 Jul 2021 11:23:12 GMT -->
 
 <head>
 
@@ -310,7 +309,7 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © {{ config('app.name') }}; {{ now()->format('Y') }}</p>
+                <p>Copyright © {{ config('app.name') }} {{ now()->format('Y') }}</p>
             </div>
         </div>
         <!--**********************************
