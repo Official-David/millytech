@@ -34,7 +34,7 @@
         </div>
         @if(request()->isUser())
         <div>
-            <a href="{{route('register')}}" class="d-flex">Create account</a>
+            <a href="{{route('register')}}" class="d-flex text-primary">Create account</a>
         </div>
         @endif
     </div>
