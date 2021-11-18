@@ -98,7 +98,7 @@
                                 @forelse ($trades->take(5) as $trade)
                                 <tr>
                                     <td>{{ $trade->rate }}</td>
-                                    <td>{{ format_money($trade->amount) }}</td>
+                                    <td>{{ number_format($trade->amount) }}</td>
                                     <td>{{ format_money($trade->total) }}</td>
                                     <td>{{ $trade->status }}</td>
                                 </tr>

@@ -31,7 +31,7 @@
                             @forelse ($trades as $trade)
                             <tr>
                                 <td>{{$trade->tradeable->name}}</td>
-                                <td>{{ $trade->amount }}</td>
+                                <td>{{ number_format($trade->amount) }}</td>
                                 <td>{{ $trade->rate }}</td>
                                 <td>{{ format_money($trade->total) }}</td>
                                 <td>
