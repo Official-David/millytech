@@ -37,7 +37,7 @@
     </div>
 </form>
 <div class="new-account mt-3 text-end">
-    <p><a class="text-primary" href="">Back to login</a></p>
+    <p><a class="text-primary" href="{{route('login')}}">Back to login</a></p>
 </div>
 </div>
 @endsection
