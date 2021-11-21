@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 @section('title', 'Register')
 @section('content')
-    <h4 class="text-center mb-4">Open your account</h4>
+    <h4 class="text-center mb-4">Create a free account</h4>
     <form action="{{route('register')}}" method="POST">
         @csrf
         <div class="mb-3">
@@ -28,6 +28,6 @@
         </div>
     </form>
     <div class="new-account mt-3">
-        <p>Already have an account? <a class="text-primary" href="{{route('login')}}">Sign in</a> or go back <a class="text-primary" href="">Home</a></p>
+        <p>Already have an account? <a class="text-primary" href="{{route('login')}}">Sign in</a> or go back <a class="text-primary" href="//{{front_domain()}}"">Home</a></p>
     </div>
 @endsection
