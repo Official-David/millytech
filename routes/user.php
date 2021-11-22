@@ -17,13 +17,6 @@ use App\Http\Controllers\User\SettingsController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });§
-
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 Route::get('', [DashboardController::class, 'dashboard'])->name('index');
 
 Route::prefix('trades')->as('trades.')->group(function(){
@@ -47,4 +40,3 @@ Route::prefix('settings')->as('settings.')->group(function(){
     Route::post('profile',[SettingsController::class,'updateProfile'])->name('profile.update');
 
 });
-
