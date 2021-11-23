@@ -30,7 +30,7 @@
                                     <strong>9am to 5pm WAT.</strong>
                                 </p>
                             </div>
-                            <a href="https://wa.me/2349066450545?text=%20Hello%20I%20have%20an%20issue%20from%20your%20website%20" target="_blank" class="btn btn-link mt-auto">Chat with us</a>
+                            <a href="https://wa.me/2349066450545?text=Hello%20I%20have%20an%20issue%20from%20your%20website%20" target="_blank" class="btn btn-link mt-auto">Chat with us</a>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 mt-4 mt-lg-0">
@@ -109,7 +109,7 @@
                     </div>
                     <div class="col-lg-5 col-md-10">
                         <div class="contact-us-img">
-                            <img src="{{asset('front/img/contact-us-img-2.svg')}}" alt="contact us" class="img-fluid">
+                            <img src="{{asset('front/img/contact-us-img-2.png')}}" height="583" width="983" alt="contact us" class="img-fluid">
                         </div>
                     </div>
                 </div>
