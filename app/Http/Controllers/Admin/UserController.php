@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -102,10 +103,15 @@ class UserController extends Controller
         if($request->hasFile('avatar'))
         {
             $dir = config('dir.profile');
-            if($user->avatar && Storage::exists($dir.$user->avatar)) Storage::delete($dir.$user->avatar);
-
-            $filename = Storage::putFile($dir,$request->file('avatar'));
-
+            if(app()->environment() == 'local'){
+                if($user->avatar && Storage::exists($dir.$user->avatar)) Storage::delete($dir.$user->avatar);
+                $filename = Storage::putFile($dir,$request->file('avatar'));
+            }else{
+                $dir = public_path($dir);
+                if($user->avatar && is_file($dir.$user->avatar)) unlink($dir.$user->avatar);
+                $filename = $dir.Str::random(40).'.'.$request->file('avatar')->extension();
+                file_put_contents($filename,$request->file('avatar')->get());
+            }
             $data['avatar'] = basename($filename);
         }
         if($user->status == 'pending')

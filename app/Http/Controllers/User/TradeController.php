@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\User;
+use App\Models\Trade;
 use App\Models\Currency;
 use App\Models\GiftCard;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Trade;
 use Illuminate\Support\Facades\Storage;
 
 class TradeController extends Controller
@@ -35,9 +36,16 @@ class TradeController extends Controller
         }
         $giftcard = GiftCard::findOrFail($request->giftcard);
         $currency = $giftcard->currencies()->where('id',$request->currency)->first();
-
-        $filename = Storage::putFile(config('dir.card_image'), $request->file('card_image'));
-
+        if($request->hasFile('card_image')){
+            $dir = config('dir.card_image');
+            if(app()->environment() == 'local'){
+                $filename = Storage::putFile($dir,$request->file('avatar'));
+            }else{
+                $dir = public_path($dir);
+                $filename = $dir.Str::random(40).'.'.$request->file('card_image')->extension();
+                file_put_contents($filename,$request->file('card_image')->get());
+            }
+        }
         $data = array_merge([
             'user_id' => $user->id,
             'total' =>$currency->rate * $request->amount,
