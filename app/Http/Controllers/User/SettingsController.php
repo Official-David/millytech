@@ -91,7 +91,7 @@ class SettingsController extends Controller
             'gender' => 'required',
             'avatar' => 'nullable|mimes:jpg,png,jpeg'
         ],[
-            'phone.regex' => 'phone must be internatonal format'
+            'phone.regex' => 'Phone number must be in international format'
         ]);
 
         $user = User::findOrFail(auth(config('fortify.guard'))->user()->id);
