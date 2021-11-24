@@ -12,12 +12,14 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="MillyTech Trade - Sell Your Giftcards with Ease!">
     <meta name="twitter:description" content="Sell Your Giftcards with Ease!.">
+    <meta name="Keywords" content="Millytech, MilytechTrade, Millytech Trade, Sell Giftcards, Giftcard">
     <meta name="twitter:image" content="#">
 
     <!--facebook og-->
     <meta property="og:url" content="#">
     <meta name="twitter:title" content="MillyTech Trade - Sell Your Giftcards with Ease!">
     <meta property="og:description" content="MillyTech Trade - Sell Your Giftcards with Ease!.">
+    <meta name="Keywords" content="Millytech, MilytechTrade, Millytech Trade, Sell Giftcards, Giftcard">
     <meta property="og:image" content="#">
     <meta property="og:image:secure_url" content="#">
     <meta property="og:image:type" content="image/png">
