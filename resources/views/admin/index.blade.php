@@ -131,7 +131,7 @@
                                     <th>Email</th>
                                     <th>Status</th>
                                     <th>Joined</th>
-                                    <th></th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody class="fs-12">
@@ -149,7 +149,7 @@
                                     <td> <a href="{{ route('admin.user.edit',$user->id) }}"> <i class="fa fa-eye"></i> Profile</a></td>
                                 </tr>
                                 @empty
-                                <td colspan="4" class="text-center text-muted">No users yet.</td>
+                                <td colspan="6" class="text-center text-muted">No users yet.</td>
                                 @endforelse
                             </tbody>
                         </table>

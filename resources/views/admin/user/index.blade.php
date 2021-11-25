@@ -21,7 +21,7 @@
                                 <th class="fs-14">Email</th>
                                 <th class="fs-14">Status</th>
                                 <th class="fs-14">Joined</th>
-                                <th class="fs-14"></th>
+                                <th class="fs-14">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,7 +65,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="5" class="text-center">No data found</td>
+                                <td colspan="6" class="text-center">No data found </td>
                             </tr>
                             @endforelse
                         </tbody>
