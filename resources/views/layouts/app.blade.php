@@ -105,6 +105,10 @@
         .slider.round:before {
             border-radius: 50%;
         }
+        .nice-select.open .list {
+            max-height: 300px;
+            overflow-y: scroll;
+        }
     </style>
     @stack('css')
 
