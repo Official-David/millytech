@@ -12,12 +12,14 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="MillyTech Trade - Sell Your Giftcards with Ease!">
     <meta name="twitter:description" content="Sell Your Giftcards with Ease!.">
+    <meta name="Keywords" content="Millytech, MilytechTrade, Millytech Trade, Sell Giftcards, Giftcard">
     <meta name="twitter:image" content="#">
 
     <!--facebook og-->
     <meta property="og:url" content="#">
     <meta name="twitter:title" content="MillyTech Trade - Sell Your Giftcards with Ease!">
     <meta property="og:description" content="MillyTech Trade - Sell Your Giftcards with Ease!.">
+    <meta name="Keywords" content="Millytech, MilytechTrade, Millytech Trade, Sell Giftcards, Giftcard">
     <meta property="og:image" content="#">
     <meta property="og:image:secure_url" content="#">
     <meta property="og:image:type" content="image/png">
@@ -89,7 +91,7 @@
 
                     <div class="action-btns text-end me-5 me-lg-0 d-none d-md-block d-lg-block">
                         <a href="{{ route('user.index') }}" class="btn btn-link text-decoration-none me-2">Sign In</a>
-                        <a href="{{ route('register') }}" class="btn btn-primary">Get Started</a>
+                        <a href="//{{ user_domain().'/register' }}" class="btn btn-primary">Get Started</a>
                     </div>
 
                     <!--offcanvas menu start-->

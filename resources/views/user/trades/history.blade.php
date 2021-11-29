@@ -24,7 +24,7 @@
                                 <th clas='fs-14'>Type</th>
                                 <th clas='fs-14'>Status</th>
                                 <th clas='fs-14'>Date</th>
-                                <th clas='fs-14'></th>
+                                <th clas='fs-14'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,7 +58,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="8" class="text-center">No trades yet!</td>
+                                <td colspan="9" class="text-center">No trades yet!</td>
                             </tr>
                             @endforelse
                         </tbody>
