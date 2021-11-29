@@ -35,7 +35,7 @@
                             <div class="col-xl-12">
                                 <div class="auth-form">
                                     <div class="text-center mb-3">
-                                        <a href=""><img src="{{logo()}}" alt=""></a>
+                                        <a href="//{{front_domain()}}"><img src="{{logo()}}" alt=""></a>
                                     </div>
                                     @yield('content')
                                 </div>

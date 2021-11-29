@@ -28,6 +28,6 @@
         </div>
     </form>
     <div class="new-account mt-3">
-        <p>Already have an account? <a class="text-primary" href="{{route('login')}}">Sign in</a> or go back <a class="text-primary" href="//{{front_domain()}}"">Home</a></p>
+        <p>Already have an account? <a class="text-primary" href="{{route('login')}}">Sign in</a> or go back <a class="text-primary" href="//{{front_domain()}}">Home</a></p>
     </div>
 @endsection
