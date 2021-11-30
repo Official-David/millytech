@@ -91,7 +91,7 @@
 
                     <div class="action-btns text-end me-5 me-lg-0 d-none d-md-block d-lg-block">
                         <a href="{{ route('user.index') }}" class="btn btn-link text-decoration-none me-2">Sign In</a>
-                        <a href="//{{ user_domain().'/register' }}" class="btn btn-primary">Get Started</a>
+                        <a href="//{{ user_domain().'/register' }}" class="btn btn-primary">Get Started </a>
                     </div>
 
                     <!--offcanvas menu start-->
