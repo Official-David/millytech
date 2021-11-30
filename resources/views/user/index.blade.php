@@ -16,7 +16,7 @@
                         <h2 class="fs-40 font-w600">{{ $user->trades->count() }}</h2>
                     </div>
                     <div>
-                        <span class="donut1" data-peity='{ "fill": ["var(--primary)", "rgba(242, 246, 252)"]}'>1</span>
+                        <span class="donut1" data-peity='{ "fill": ["var(--primary)", "rgba(242, 246, 252)"]}'></span>
                     </div>
                 </div>
             </div>
