@@ -34,7 +34,7 @@
     <link rel="icon" href="{{ asset('front/img/favicon.png')}}" type="image/png" sizes="16x16">
 
     <!--title-->
-    <title>@yield('title') | {{ config('app.name') }} | Sell Your Giftcards with Ease!</title>
+    <title>@yield('title') | {{ config('app.name') }} | Sell Your Giftcards with Ease! </title>
 
     <!--google fonts-->
     <link
