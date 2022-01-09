@@ -11,18 +11,22 @@ class PagesController extends Controller
     {
         return view('front.index');
     }
+
     public function aboutUs()
     {
         return view('front.about-us');
     }
+
     public function contactUs()
     {
         return view('front.contact-us');
     }
+
     public function services()
     {
         return view('front.services');
     }
+
     public function business()
     {
         return view('front.business');
