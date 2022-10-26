@@ -31,30 +31,24 @@ class TradeController extends Controller
 
         $user = auth(config('fortify.guard'))->user();
 
-        if(is_null($user->bank)){
-            return back()->with('error','You need to link a bank account. Go to settings.')->withInput();
+        if (is_null($user->bank)) {
+            return back()->with('error', 'You need to link a bank account. Go to settings.')->withInput();
         }
         $giftcard = GiftCard::findOrFail($request->giftcard);
-        $currency = $giftcard->currencies()->where('id',$request->currency)->first();
-        if($request->hasFile('card_image')){
+        $currency = $giftcard->currencies()->where('id', $request->currency)->first();
+        if ($request->hasFile('card_image')) {
             $dir = config('dir.card_image');
-            if(app()->environment() == 'local'){
-                $filename = Storage::putFile($dir,$request->file('avatar'));
-            }else{
-                $dir = public_path($dir);
-                $filename = $dir.Str::random(40).'.'.$request->file('card_image')->extension();
-                file_put_contents($filename,$request->file('card_image')->get());
-            }
+            $filename = Storage::putFile($dir, $request->file('card_image'));
         }
         $data = array_merge([
             'user_id' => $user->id,
-            'total' =>$currency->rate * $request->amount,
-            'image' =>basename($filename),
+            'total' => $currency->rate * $request->amount,
+            'image' => basename($filename),
             'rate' => $currency->rate,
             'meta' => ['currency' => $currency->name]
         ], $request->only(['amount']));
         $giftcard->trades()->create($data);
-        session()->flash('message','Card traded, please wait for admin approval');
+        session()->flash('message', 'Card traded, please wait for admin approval');
         return redirect()->route('user.trades.history');
     }
 
@@ -75,13 +69,13 @@ class TradeController extends Controller
     {
         $user = User::findOrFail(auth(config('fortify.guard'))->user()->id);
         $trades = $user->trades()->latest()->paginate();
-        return view('user.trades.history',compact('user','trades'));
+        return view('user.trades.history', compact('user', 'trades'));
     }
 
     public function show($id)
     {
         $trade = Trade::findOrFail($id);
-        $html = view('includes.trade-details',['trade'=>$trade])->render();
+        $html = view('includes.trade-details', ['trade' => $trade])->render();
         return response()->json(compact('html'));
     }
 }
