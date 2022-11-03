@@ -32,19 +32,19 @@ function logo($dark = false, $url = null)
 
 function favicon()
 {
-    return logo();
+    return asset(config('dir.favicon'));
 }
 
 function profile_picture($avatar = 'default.png')
 {
-    if(request()->isUser() && !empty(auth('user')->user()->avatar)) $avatar =  auth('user')->user()->avatar;
+    if (request()->isUser() && !empty(auth('user')->user()->avatar)) $avatar =  auth('user')->user()->avatar;
 
-    return asset(config('dir.profile').$avatar);
+    return asset(config('dir.profile') . $avatar);
 }
 
 function format_money(int $amount)
 {
-    return '₦'.number_format($amount);
+    return '₦' . number_format($amount);
 }
 
 function trade_status($status)
@@ -65,7 +65,8 @@ function trade_status($status)
     return $status;
 }
 
-function user_status($status){
+function user_status($status)
+{
     switch ($status) {
         case 'inactive':
             $status = 'danger';

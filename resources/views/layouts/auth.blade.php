@@ -18,9 +18,9 @@
     <title>@yield('title') | Authentication</title>
 
     <!-- FAVICONS ICON -->
-    <link rel="shortcut icon" type="image/png" href="{{favicon()}}" />
-    <link href="{{asset('back/css/style.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('back/vendor/toastr/css/toastr.min.css')}}">
+    <link rel="shortcut icon" type="image/png" href="{{ favicon() }}" />
+    <link href="{{ asset('back/css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('back/vendor/toastr/css/toastr.min.css') }}">
 
 
 </head>
@@ -35,7 +35,9 @@
                             <div class="col-xl-12">
                                 <div class="auth-form">
                                     <div class="text-center mb-3">
-                                        <a href="//{{front_domain()}}"><img src="{{logo()}}" alt=""></a>
+                                        <a href="//{{ front_domain() }}">
+                                            <img src="{{ logo() }}" alt="" style="width:200px;">
+                                        </a>
                                     </div>
                                     @yield('content')
                                 </div>
@@ -52,11 +54,11 @@
         Scripts
     ***********************************-->
     <!-- Required vendors -->
-    <script src="{{asset('back/vendor/global/global.min.js')}}"></script>
-    <script src="{{asset('back/js/custom.min.js')}}"></script>
-    <script src="{{asset('back/js/deznav-init.js')}}"></script>
-    <script src="{{asset('back/js/styleSwitcher.js')}}"></script>
-    <script src="{{asset('back/vendor/toastr/js/toastr.min.js')}}"></script>
+    <script src="{{ asset('back/vendor/global/global.min.js') }}"></script>
+    <script src="{{ asset('back/js/custom.min.js') }}"></script>
+    <script src="{{ asset('back/js/deznav-init.js') }}"></script>
+    <script src="{{ asset('back/js/styleSwitcher.js') }}"></script>
+    <script src="{{ asset('back/vendor/toastr/js/toastr.min.js') }}"></script>
 
     {{-- @include('includes.alert') --}}
 </body>
