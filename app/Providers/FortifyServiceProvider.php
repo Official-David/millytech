@@ -14,6 +14,7 @@ use Laravel\Fortify\Contracts\LogoutResponse as LogoutResponseContract;
 use Laravel\Fortify\Http\Responses\LogoutResponse;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Http\Controllers\AuthenticatedSessionController as ControllersAuthenticatedSessionController;
+use Illuminate\Support\Facades\Config;
 use Laravel\Fortify\Contracts\RegisterResponse as ContractsRegisterResponse;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Responses\RegisterResponse;
@@ -27,12 +28,15 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        Request::macro('isAdmin', fn() => config('domain.admin') == request()->getHost());
-        Request::macro('isUser', fn() => config('domain.user') == request()->getHost());
+        Request::macro('isAdmin', fn () => config('domain.admin') == request()->getHost());
+        Request::macro('isUser', fn () => config('domain.user') == request()->getHost());
 
         if (request()->isAdmin()) {
-            config(['fortify.guard' => 'admin']);
-            config(['fortify.domain' => admin_domain()]);
+            Config::set([
+                'fortify.guard' => 'admin',
+                'fortify.domain' => admin_domain(),
+                'fortify.passwords' => 'admins'
+            ]);
         }
 
         if (request()->isUser()) {
@@ -53,14 +57,14 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
-        Fortify::loginView(fn() => view('auth.login'));
+        Fortify::loginView(fn () => view('auth.login'));
 
 
-        Fortify::registerView(fn() => view('auth.register'));
+        Fortify::registerView(fn () => view('auth.register'));
 
-        Fortify::requestPasswordResetLinkView(fn() => view('auth.passwords.forgot'));
+        Fortify::requestPasswordResetLinkView(fn () => view('auth.passwords.forgot'));
 
-        Fortify::resetPasswordView(fn($request) => view('auth.passwords.reset',compact('request')));
+        Fortify::resetPasswordView(fn ($request) => view('auth.passwords.reset', compact('request')));
 
         $this->app->singleton(AuthenticatedSessionController::class, ControllersAuthenticatedSessionController::class);
 
@@ -80,7 +84,7 @@ class FortifyServiceProvider extends ServiceProvider
         // });
 
         RateLimiter::for('login', function (Request $request) {
-            return Limit::perMinute(5)->by($request->email.$request->ip());
+            return Limit::perMinute(5)->by($request->email . $request->ip());
         });
 
         RateLimiter::for('two-factor', function (Request $request) {

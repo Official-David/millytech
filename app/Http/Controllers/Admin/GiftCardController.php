@@ -38,7 +38,8 @@ class GiftCardController extends Controller
      */
     public function store(Request $request)
     {
-        $giftcard = GiftCard::create(['name'=>$request->name]);
+        // dd($request->all());
+        $giftcard = GiftCard::create(['name' => $request->input('name')]);
 
         $giftcard->currencies()->createMany($request->meta);
         return response()->json();
@@ -52,7 +53,7 @@ class GiftCardController extends Controller
     public function addCurrency()
     {
         $html = view('includes.add-currency')->render();
-        return response()->json(['html'=>$html]);
+        return response()->json(['html' => $html]);
     }
 
     /**
@@ -64,7 +65,7 @@ class GiftCardController extends Controller
     public function edit($id)
     {
         $giftcard = GiftCard::findOrFail($id);
-        return view('admin.giftcard.edit',compact('giftcard'));
+        return view('admin.giftcard.edit', compact('giftcard'));
     }
 
     /**
