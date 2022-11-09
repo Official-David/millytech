@@ -1,6 +1,6 @@
 <ul class="metismenu" id="menu">
     <li><a href="/" class="" aria-expanded="false">
-            <i class="flaticon-025-dashboard"></i>
+            <i class="fa fa-tachometer-alt"></i>
             <span class="nav-text">Dashboard</span>
         </a>
     </li>
@@ -11,7 +11,7 @@
 
 
     <li><a href="{{ route('user.trades.index') }}" aria-expanded="false">
-            <i class="flaticon-041-graph"></i>
+            <i class="fa fa-credit-card"></i>
             <span class="nav-text">Sell Giftcard</span>
         </a>
     </li>
@@ -23,18 +23,18 @@
 </li> --}}
 
     <li><a href="{{ route('user.trades.history') }}" aria-expanded="false">
-            <i class="flaticon-381-folder"></i>
+            <i class="fa fa-chart-bar"></i>
             <span class="nav-text">Trade history</span>
         </a>
     </li>
 
     <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
-            <i class="flaticon-381-settings-1"></i>
+            <i class="fa fa-cog"></i>
             <span class="nav-text">Settings</span>
         </a>
         <ul aria-expanded="false">
             <li><a href="{{ route('user.settings.profile') }}">Profile</a></li>
-            <li><a href="{{route('user.settings.bank.details')}}">Bank Details</a></li>
+            <li><a href="{{ route('user.settings.bank.details') }}">Bank Details</a></li>
             <li><a href="{{ route('user.settings.password') }}">Change Password</a></li>
         </ul>
     </li>

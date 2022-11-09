@@ -16842,7 +16842,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu>li.mm-active>a i {
     color: var(--primary);
-    font-weight: 300;
+    font-weight: 600;
 }
 
 [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu>li .has-arrow:after {
