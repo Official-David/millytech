@@ -12,4 +12,9 @@ class Admin extends Authenticatable
 {
     use HasFactory, HashPassword, Notifiable;
     protected $guarded = ['id'];
+
+    public function giftcards()
+    {
+        return $this->belongsToMany(GiftCard::class);
+    }
 }

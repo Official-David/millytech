@@ -6,6 +6,7 @@ use App\Actions\Fortify\PasswordValidationRules;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\GiftCard;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
@@ -18,8 +19,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admins = Admin::orderBy('super','desc')->paginate();
-        return view('admin.settings.admin.index',compact('admins'));
+        $admins = Admin::orderBy('super', 'desc')->paginate();
+        return view('admin.settings.admin.index', compact('admins'));
     }
 
     /**
@@ -29,7 +30,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view('admin.settings.admin.create');
+        $giftcards = GiftCard::get(['id', 'name']);
+        return view('admin.settings.admin.create', compact('giftcards'));
     }
 
     /**
@@ -45,11 +47,17 @@ class AdminController extends Controller
             'lastname' => 'required',
             'email' => 'required|email|unique:admins,email',
             'super' => 'required|numeric',
-            'password' => 'required|string|max:60|min:8'
+            'password' => 'required|string|max:60|min:8',
+            'cards' => ['required']
         ]);
 
-        Admin::create($request->except('_token'));
-        session()->flash('message','Admin created');
+        // dd($request->cards);
+        $admin = Admin::create($request->except('_token', 'cards'));
+
+        $admin->giftcards()->attach((array)$request->cards);
+
+        // fore
+        session()->flash('message', 'Admin created');
         return redirect()->route('admin.settings.admin.index');
     }
 
@@ -63,10 +71,10 @@ class AdminController extends Controller
     {
 
         $admin = Admin::findOrFail($id);
-        if($admin->id === auth(config('fortify.guard'))->user()->id) return back()->with('error','You cannot modify your super status');
+        if ($admin->id === auth(config('fortify.guard'))->user()->id) return back()->with('error', 'You cannot modify your super status');
         $admin->super = !$admin->super;
         $admin->save();
-        session()->flash('message','Super status changed');
+        session()->flash('message', 'Super status changed');
         return back();
     }
 
@@ -79,7 +87,9 @@ class AdminController extends Controller
     public function edit($id)
     {
         $admin = Admin::findOrFail($id);
-        return view('admin.settings.admin.edit',compact('admin'));
+        $giftcards = GiftCard::get(['id', 'name']);
+        $selected_cards = $admin->giftcards->map(fn ($item, $key) => $item->id)->all();
+        return view('admin.settings.admin.edit', compact('admin', 'giftcards', 'selected_cards'));
     }
 
     /**
@@ -96,15 +106,17 @@ class AdminController extends Controller
             'lastname' => 'required',
             'email' => "required|email|unique:admins,email,{$id}",
             'super' => 'required|numeric',
-            'password' => 'nullable|string|max:60|min:8'
+            'password' => 'nullable|string|max:60|min:8',
+            'cards' => ['required']
         ]);
         $admin = Admin::findOrFail($id);
-        $data = $request->except('_token','_method','super','password');
+        $data = $request->except('_token', '_method', 'super', 'password');
         $admin->id != auth(config('fortify.guard'))->user()->id ? $data['super'] = $request->super : null;
-        if(!is_null($admin)) $data['password'] = $request->password;
+        if (!is_null($admin)) $data['password'] = $request->password;
         $admin->update($data);
-        return redirect()->route('admin.settings.admin.index')->with('message','Updated successfully');
-
+        $admin->giftcards()->detach();
+        $admin->giftcards()->attach($request->input('cards'));
+        return redirect()->route('admin.settings.admin.index')->with('message', 'Updated successfully');
     }
 
     /**
@@ -116,10 +128,9 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $admin = Admin::findOrFail($id);
-        if($admin->id == auth(config('fortify.guard'))->user()->id) return back()-with('error','You cannot delete your admin account');
+        if ($admin->id == auth(config('fortify.guard'))->user()->id) return back() - with('error', 'You cannot delete your admin account');
         $admin->delete();
-        return back()->with('success','Admin deleted');
-
+        return back()->with('success', 'Admin deleted');
     }
 
     public function password()
@@ -135,19 +146,17 @@ class AdminController extends Controller
         ]);
         $admin = Admin::findOrFail(auth(config('fortify.guard'))->user()->id);
 
-        if(!Hash::check($request->current_password,$admin->password))
-        {
+        if (!Hash::check($request->current_password, $admin->password)) {
             return back()->withErrors(['current_password' => 'Your current password is incorrect'])->withInput();
         }
 
-        if(Hash::check($request->password,$admin->password))
-        {
+        if (Hash::check($request->password, $admin->password)) {
             return back()->withErrors(['password' => 'Old password detected'])->withInput();
         }
 
         $admin->password = $request->password;
         $admin->save();
-        session()->flash('message','Password updated successfully');
+        session()->flash('message', 'Password updated successfully');
         return back();
     }
 }

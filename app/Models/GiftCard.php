@@ -21,6 +21,11 @@ class GiftCard extends Model
 
     public function trades()
     {
-        return $this->morphMany(Trade::class,'tradeable');
+        return $this->morphMany(Trade::class, 'tradeable');
+    }
+
+    public function admins()
+    {
+        return $this->belongsToMany(Admin::class);
     }
 }
