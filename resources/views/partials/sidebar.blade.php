@@ -28,15 +28,23 @@
         </a>
     </li>
 
-    <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
-            <i class="fa fa-cog"></i>
-            <span class="nav-text">Settings</span>
+    <li><a href="{{ route('user.settings.profile') }}" aria-expanded="false">
+            <i class="fa fa-user"></i>
+            <span class="nav-text">Profile</span>
         </a>
-        <ul aria-expanded="false">
-            <li><a href="{{ route('user.settings.profile') }}">Profile</a></li>
-            <li><a href="{{ route('user.settings.bank.details') }}">Bank Details</a></li>
-            <li><a href="{{ route('user.settings.password') }}">Change Password</a></li>
-        </ul>
+    </li>
+
+
+    <li><a href="{{ route('user.settings.bank.details') }}" aria-expanded="false">
+            <i class="fa fa-university"></i>
+            <span class="nav-text">Bank Details</span>
+        </a>
+    </li>
+
+    <li><a href="{{ route('user.settings.password') }}" aria-expanded="false">
+            <i class="fa fa-key"></i>
+            <span class="nav-text">Change Password</span>
+        </a>
     </li>
     {{-- <li><a href="javascript:void(0);">
             <h4>Settings</h4>
