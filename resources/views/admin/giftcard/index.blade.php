@@ -27,7 +27,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($giftcards as $giftcard)
+                                @forelse($giftcards as $giftcard)
                                     <tr>
                                         <td>{{ $giftcard->name }}</td>
                                         <td>

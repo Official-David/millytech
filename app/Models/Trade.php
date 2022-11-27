@@ -25,4 +25,9 @@ class Trade extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function trade_items()
+    {
+        return $this->hasMany(TradeItem::class);
+    }
+
 }

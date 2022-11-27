@@ -2,21 +2,30 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Trade;
+use App\Models\GiftCard;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class TradeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $trades = Trade::latest()->paginate();
-        return view('admin.trade.index',compact('trades'));
+        $admin = auth()->user();
+        if (!$admin->super) {
+            $allowed_cards = DB::table('admin_gift_card')->where('admin_id', $admin->id)->pluck('gift_card_id')->toArray();
+            $trades = Trade::latest()->whereHasMorph(
+                'tradeable',
+                [GiftCard::class],
+                fn(Builder $query) => $query->whereIn('id', $allowed_cards)
+            )->paginate();
+        } else {
+            $trades = Trade::latest()->paginate();
+        }
+        return view('admin.trade.index', compact('trades'));
     }
 
 
@@ -33,7 +42,7 @@ class TradeController extends Controller
     public function payForm($id)
     {
         $trade = Trade::findOrFail($id);
-        $html = view('includes.pay-form',['trade' => $trade])->render();
+        $html = view('includes.pay-form', ['trade' => $trade])->render();
         return response()->json(['html' => $html]);
 
     }
@@ -47,7 +56,7 @@ class TradeController extends Controller
         // $trade->receipt = $filename;
         $trade->status = 'paid';
         $trade->save();
-        return back()->with('success','Trade marked as paid');
+        return back()->with('success', 'Trade marked as paid');
     }
 
     /**
@@ -80,7 +89,7 @@ class TradeController extends Controller
     public function show($id)
     {
         $trade = Trade::findOrFail($id);
-        $html = view('includes.trade-details',compact('trade'))->render();
+        $html = view('includes.trade-details', compact('trade'))->render();
         return response()->json(['html' => $html]);
     }
 

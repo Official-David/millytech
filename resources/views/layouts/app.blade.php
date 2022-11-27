@@ -110,6 +110,10 @@
             max-height: 300px;
             overflow-y: scroll;
         }
+
+        .nice-select {
+            float: none;
+        }
     </style>
     @stack('css')
 
@@ -275,34 +279,31 @@
                             </li>
 
                             <li class="nav-item dropdown header-profile">
-                                <a class="nav-link" href="javascript:void(0);" role="button"
-                                    data-bs-toggle="dropdown">
+                                <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
                                     <div class="header-info me-3">
-                                        <span
-                                            class="fs-18 font-w500 text-end">{{ auth(config('fortify.guard'))->user()->name }}</span>
-                                        <small
-                                            class="text-end fs-14 font-w400">{{ auth(config('fortify.guard'))->user()->email }}</small>
+                                        <span class="fs-18 font-w500 text-end">{{
+                                            auth(config('fortify.guard'))->user()->name }}</span>
+                                        <small class="text-end fs-14 font-w400">{{
+                                            auth(config('fortify.guard'))->user()->email }}</small>
                                     </div>
                                     <img src="{{ profile_picture() }}" width="20" alt="" />
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     @if (request()->isUser())
-                                        <a href="{{ route('user.settings.profile') }}" class="dropdown-item ai-icon">
-                                            <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg"
-                                                class="text-primary" width="18" height="18"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                                <circle cx="12" cy="7" r="4"></circle>
-                                            </svg>
-                                            <span class="ms-2">Profile </span>
-                                        </a>
+                                    <a href="{{ route('user.settings.profile') }}" class="dropdown-item ai-icon">
+                                        <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary"
+                                            width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                        <span class="ms-2">Profile </span>
+                                    </a>
                                     @endif
                                     {{-- <a href="email-inbox.html" class="dropdown-item ai-icon">
                                         <svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success"
-                                            width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
+                                            width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path
                                                 d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
                                             </path>
@@ -313,9 +314,8 @@
                                     <a href="javascript:void(0);" class="dropdown-item ai-icon"
                                         onclick="document.getElementById('logout-form').submit()">
                                         <svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
-                                            width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
+                                            width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                                             <polyline points="16 17 21 12 16 7"></polyline>
                                             <line x1="21" y1="12" x2="9" y2="12">
@@ -345,9 +345,9 @@
         <div class="deznav">
             <div class="deznav-scroll">
                 @if (request()->isAdmin())
-                    @include('partials.admin-sidebar')
+                @include('partials.admin-sidebar')
                 @elseif(request()->isUser())
-                    @include('partials.sidebar')
+                @include('partials.sidebar')
                 @endif
             </div>
         </div>
@@ -417,29 +417,27 @@
     <script>
         function toast(message, type = 'success') {
             let data = {
-                timeOut: 5000,
-                closeButton: !0,
-                debug: !1,
-                newestOnTop: !0,
-                progressBar: !0,
-                positionClass: "toast-top-right",
-                preventDuplicates: !0,
-                onclick: null,
-                showDuration: "300",
-                hideDuration: "1000",
-                extendedTimeOut: "1000",
-                showEasing: "swing",
-                hideEasing: "linear",
-                showMethod: "fadeIn",
-                hideMethod: "fadeOut",
-                tapToDismiss: !1
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": false,
+                "positionClass": "toast-bottom-center",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
             }
             if (type == 'success') {
-                toastr.success(message, "Sucess", data)
+                toastr.success(message, data)
             } else if (type == 'info') {
-                toastr.info(message, "Info", data)
+                toastr.info(message, data)
             } else {
-                toastr.error(message, "Error", data)
+                toastr.error(message, data)
             }
         }
 
@@ -475,15 +473,15 @@
     </script>
 
     @if (session()->has('message'))
-        <script>
-            toast("{{ session()->get('message') }}")
-        </script>
+    <script>
+        toast("{{ session()->get('message') }}")
+    </script>
     @endif
 
     @if (session()->has('error'))
-        <script>
-            toast("{{ session()->get('error') }}", "error")
-        </script>
+    <script>
+        toast("{{ session()->get('error') }}", "error")
+    </script>
     @endif
 
 

@@ -2,54 +2,119 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Requests\PlaceTradeRequest;
 use App\Models\User;
 use App\Models\Trade;
 use App\Models\Currency;
 use App\Models\GiftCard;
+use App\Rules\Imageable;
+use Illuminate\Http\File;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Validation\Rules\Base64;
+use Intervention\Image\ImageManagerStatic;
 
 class TradeController extends Controller
 {
+
+    private $files = [];
     public function index()
     {
         $giftcards = GiftCard::all();
         return view('user.trades.index', compact('giftcards'));
     }
 
-    public function place(Request $request)
+    public function addCard($id)
     {
-        $request->validate([
-            'giftcard' => 'required|numeric',
-            'currency' => 'required|numeric',
-            'amount' => 'required|numeric',
-            'card_image' => 'required|mimes:png,jpg,jpeg',
-        ]);
+        $currencies = GiftCard::findOrFail($id)->currencies;
+        $html = view('components.giftcard-details', compact('currencies'))->render();
+        return response()->json(compact('html'));
+    }
 
+    public function place(PlaceTradeRequest $request)
+    {
 
-        $user = auth(config('fortify.guard'))->user();
+        DB::beginTransaction();
+        try {
+            $user = auth(config('fortify.guard'))->user();
+            if (is_null($user->bank)) {
+                return back()->with('error', 'You need to link a bank account. Go to settings.')->withInput();
+            }
+            $giftcard = GiftCard::findOrFail($request->input('giftcard'));
+            $total = 0;
+            $trade_items = [];
 
-        if (is_null($user->bank)) {
-            return back()->with('error', 'You need to link a bank account. Go to settings.')->withInput();
+            foreach ($request->input('cards') as $card) {
+                $currency = Currency::findOrFail($card['currency']);
+                $total += ($card['type'] == 'ecode' ? $currency->ecode_rate : $currency->rate) * $card['amount'];
+                array_push(
+                    $trade_items,
+                    array_merge(
+                        [
+                            'currency_id' => $card['currency'],
+                            'amount' => $card['amount'],
+                            'type' => $card['type'],
+                        ],
+                        $card['type'] == 'ecode' ?
+                        [
+                            'ecode' => $card['ecode']
+                        ] :
+                        [
+                            'image' => $this->uploadImage($card['image'])
+                        ]
+                    )
+                );
+
+            }
+            $trade = $giftcard->trades()->create([
+                'user_id' => $user->id,
+                'total' => $total,
+            ]);
+            $trade->trade_items()->createMany($trade_items);
+            DB::commit();
+            return response()->json([
+                'message' => 'Card traded, please wait for admin approval',
+                'redirect_uri' => route('user.trades.history'),
+            ], 200);
+        } catch (\Throwable $th) {
+            Log::error($th);
+            DB::rollBack();
+            $this->deleteCardImages();
+            return response()->json([
+                'message' => 'An error occurred and we unable to make your trade.',
+            ], 500);
         }
-        $giftcard = GiftCard::findOrFail($request->giftcard);
-        $currency = $giftcard->currencies()->where('id', $request->currency)->first();
-        if ($request->hasFile('card_image')) {
-            $dir = config('dir.card_image');
-            $filename = Storage::putFile($dir, $request->file('card_image'));
+
+    }
+
+    private function deleteCardImages()
+    {
+        $images = $this->files;
+        if (is_array($images) && count($images)) {
+            foreach ($images as $image) {
+                if (file_exists($file = storage_path('app/public/card_images/') . $image)) {
+                    unlink($file);
+                }
+            }
         }
-        $data = array_merge([
-            'user_id' => $user->id,
-            'total' => $currency->rate * $request->amount,
-            'image' => basename($filename),
-            'rate' => $currency->rate,
-            'meta' => ['currency' => $currency->name]
-        ], $request->only(['amount']));
-        $giftcard->trades()->create($data);
-        session()->flash('message', 'Card traded, please wait for admin approval');
-        return redirect()->route('user.trades.history');
+    }
+
+    private function uploadImage(string $imageString): string
+    {
+        $dir = storage_path('app/public/card_images/');
+        if (!is_dir($dir)) {
+            mkdir($dir, 755);
+        }
+        $filename = $dir . rand() . Str::random('40') . '.png';
+        array_push($this->files, $filename);
+        $image = (new ImageManager())->make($imageString);
+        $image->save($filename, 80, 'png');
+        return basename($filename);
     }
 
     public function currencies($id)

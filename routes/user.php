@@ -19,24 +19,25 @@ use App\Http\Controllers\User\SettingsController;
 
 Route::get('', [DashboardController::class, 'dashboard'])->name('index');
 
-Route::prefix('trades')->as('trades.')->group(function(){
-    Route::get('',[TradeController::class,'index'])->name('index');
-    Route::post('place',[TradeController::class,'place'])->name('place');
-    Route::get('currencies/{id}',[TradeController::class,'currencies'])->name('currencies');
-    Route::get('rate/{id}',[TradeController::class,'rate'])->name('rate');
+Route::prefix('trades')->as('trades.')->group(function () {
+    Route::get('', [TradeController::class, 'index'])->name('index');
+    Route::post('place', [TradeController::class, 'place'])->name('place');
+    Route::get('history', [TradeController::class, 'history'])->name('history');
+    Route::get('history/show/{id}', [TradeController::class, 'show'])->name('show');
 
-    Route::get('history',[TradeController::class,'history'])->name('history');
-    Route::get('history/show/{id}',[TradeController::class,'show'])->name('show');
+    Route::get('{id}', [TradeController::class, 'addCard'])->name('add-card');
+    Route::get('currencies/{id}', [TradeController::class, 'currencies'])->name('currencies');
+    Route::get('rate/{id}', [TradeController::class, 'rate'])->name('rate');
+
 });
 
-Route::prefix('settings')->as('settings.')->group(function(){
-    Route::get('bank',[SettingsController::class, 'bankDetails'])->name('bank.details');
-    Route::post('bank',[SettingsController::class, 'bankDetailsUpdate'])->name('bank.details.update');
+Route::prefix('settings')->as('settings.')->group(function () {
+    Route::get('bank', [SettingsController::class, 'bankDetails'])->name('bank.details');
+    Route::post('bank', [SettingsController::class, 'bankDetailsUpdate'])->name('bank.details.update');
 
-    Route::get('password',[SettingsController::class, 'password'])->name('password');
-    Route::post('password',[SettingsController::class, 'changePassword'])->name('password.change');
+    Route::get('password', [SettingsController::class, 'password'])->name('password');
+    Route::post('password', [SettingsController::class, 'changePassword'])->name('password.change');
 
-    Route::get('profile',[SettingsController::class,'profile'])->name('profile');
-    Route::post('profile',[SettingsController::class,'updateProfile'])->name('profile.update');
-
+    Route::get('profile', [SettingsController::class, 'profile'])->name('profile');
+    Route::post('profile', [SettingsController::class, 'updateProfile'])->name('profile.update');
 });

@@ -11,6 +11,8 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "hisorange/browser-detect": "^4.4",
+        "intervention/image": "^2.7",
+        "intervention/validation": "^3.2",
         "laravel/fortify": "^1.8",
         "laravel/framework": "^8.54",
         "laravel/sanctum": "^2.11",

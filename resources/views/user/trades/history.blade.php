@@ -17,10 +17,7 @@
                         <thead>
                             <tr>
                                 <th clas='fs-14'>Card</th>
-                                <th clas='fs-14'>Amount</th>
-                                <th clas='fs-14'>Rate</th>
                                 <th clas='fs-14'>Total</th>
-                                <th clas='fs-14'>Info</th>
                                 <th clas='fs-14'>Type</th>
                                 <th clas='fs-14'>Status</th>
                                 <th clas='fs-14'>Date</th>
@@ -29,16 +26,9 @@
                         </thead>
                         <tbody>
                             @forelse ($trades as $trade)
-                            <tr class="fs-12">
+                            <tr class="fs-14">
                                 <td>{{$trade->tradeable->name}}</td>
-                                <td>{{ $trade->amount }}</td>
-                                <td>{{ $trade->rate }}</td>
                                 <td>{{ format_money($trade->total) }}</td>
-                                <td>
-                                    @foreach ($trade->meta ?? [] as $k => $meta)
-                                        <strong>{{ucfirst($k)}}</strong>:{{$meta}} @if(!$loop->last) <br> @endif
-                                    @endforeach
-                                </td>
                                 <td>{{ $trade->tradeable_type == \App\Models\GiftCard::class ? 'GiftCard':'Coin' }}</td>
                                 <td><span class="badge badge-outline-{{trade_status($trade->status)}}"> {{ strtoupper($trade->status) }} </span></td>
                                 <td>{{ $trade->created_at->diffForHumans() }}</td>

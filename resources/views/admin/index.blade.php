@@ -88,8 +88,8 @@
                         <table class="table table-hover table-responsive-sm table-stripe">
                             <thead>
                                 <tr>
-                                    <th>Rate</th>
-                                    <th>Amount</th>
+                                    <th>Asset</th>
+                                    <th>Type</th>
                                     <th>Total</th>
                                     <th>Status</th>
                                 </tr>
@@ -97,8 +97,8 @@
                             <tbody>
                                 @forelse ($trades->take(5) as $trade)
                                 <tr>
-                                    <td>{{ $trade->rate }}</td>
-                                    <td>{{ number_format($trade->amount) }}</td>
+                                    <td>{{ $trade->tradeable->name }}</td>
+                                    <td>{{ $trade->tradeable_type == \App\Models\GiftCard::class ? 'GiftCard':'Coin' }}</td>
                                     <td>{{ format_money($trade->total) }}</td>
                                     <td>{{ $trade->status }}</td>
                                 </tr>

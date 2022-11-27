@@ -154,19 +154,21 @@
                         <table class="table table-hover table-responsive-sm table-stripe">
                             <thead>
                                 <tr>
-                                    <th class="fs-16">Rate</th>
-                                    <th class="fs-16">Amount</th>
+                                    <th class="fs-16">Asset</th>
+                                    <th class="fs-16">Type</th>
                                     <th class="fs-16">Total</th>
                                     <th class="fs-16">Status</th>
+                                    <th class="fs-16">Date</th>
                                 </tr>
                             </thead>
                             <tbody class="fs-12">
                                 @forelse ($user->trades->take(5) as $trade)
                                 <tr>
-                                    <td>{{ $trade->rate }}</td>
-                                    <td>{{ format_money($trade->amount) }}</td>
+                                    <td>{{$trade->tradeable->name}}</td>
+                                    <td>{{ $trade->tradeable_type == \App\Models\GiftCard::class ? 'GiftCard':'Coin' }}</td>
                                     <td>{{ format_money($trade->total) }}</td>
                                     <td>{{ $trade->status }}</td>
+                                    <td>{{ $trade->created_at->format('d M, Y') }}</td>
                                 </tr>
                                 @empty
                                 <tr>

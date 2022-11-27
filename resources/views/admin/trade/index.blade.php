@@ -18,9 +18,6 @@
                             <tr>
                                 <th>Card</th>
                                 <th>Type</th>
-                                <th>Info</th>
-                                <th>Rate</th>
-                                <th>Amount</th>
                                 <th>Total</th>
                                 <th>Status</th>
                                 <th>Date</th>
@@ -32,13 +29,6 @@
                             <tr>
                                 <td>{{$trade->tradeable->name}}</td>
                                 <td>{{ $trade->tradeable_type == \App\Models\GiftCard::class ? 'GiftCard':'Coin' }}</td>
-                                <td>
-                                    @foreach ($trade->meta ?? [] as $k => $meta)
-                                    <strong>{{ucfirst($k)}}</strong>:{{$meta}} @if(!$loop->last) <br> @endif
-                                    @endforeach
-                                </td>
-                                <td>{{ $trade->rate }}</td>
-                                <td>{{ number_format($trade->amount) }}</td>
                                 <td>{{ format_money($trade->total) }}</td>
                                 <td>
                                     @if(in_array($trade->status,['rejected','paid']))
@@ -165,7 +155,7 @@
         txt.setSelectionRange(0,99999)
         navigator.clipboard.writeText(txt.value)
         txt.blur()
-        toast('Copied to clipboad','info')
+        toast('Copied to clipboard','info')
     }
 
     document.getElementById('pay').addEventListener('click', e => {
