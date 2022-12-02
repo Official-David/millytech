@@ -144,7 +144,7 @@
         ***********************************-->
         <div class="nav-header">
             <a href="/" class="brand-logo">
-                <img src="{{ logo() }}" alt="" width="70">
+                <img src="{{ logo() }}" alt="" width="180">
             </a>
             <div class="nav-control">
                 <div class="hamburger">

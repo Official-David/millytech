@@ -11,7 +11,7 @@ class Notification extends Model
 
     protected $guarded = ['id'];
 
-    public function user()
+    public function users()
     {
         return $this->belongsToMany(User::class)->withPivot('read');
     }

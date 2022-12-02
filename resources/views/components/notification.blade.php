@@ -1,10 +1,7 @@
 <li class="nav-item dropdown notification_dropdown">
     <a
         class="nav-link"
-        href="javascript:void(0);"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
+        href="{{route('user.notifications.index')}}"
     >
         <svg
             width="28"
@@ -26,55 +23,4 @@
             {{$notification_count}}
         </span>
     </a>
-    <div class="dropdown-menu dropdown-menu-end">
-        <div
-            id="DZ_W_Notification1"
-            class="widget-media dz-scroll p-3 ps ps--active-y"
-            style="height:380px;"
-        >
-            <ul class="timeline">
-                @forelse ($notifications as $notification)
-                <li>
-                    <div class="timeline-panel">
-                        <div class="media me-2">
-                            <i class="far fa-envelope{{$notification->pivot->read ? '-open' : ' text-primary'}}"></i>
-                        </div>
-                        <div class="media-body">
-                            <h6 class="mb-1">{{$notification->title}}</h6>
-                            <small class="d-block">{{$notification->created_at->format('d M, Y - h:ia')}}</small>
-                        </div>
-                    </div>
-                </li>
-                @empty
-
-                @endforelse
-            </ul>
-            <div
-                class="ps__rail-x"
-                style="left: 0px; bottom: 0px;"
-            >
-                <div
-                    class="ps__thumb-x"
-                    tabindex="0"
-                    style="left: 0px; width: 0px;"
-                >
-                </div>
-            </div>
-            <div
-                class="ps__rail-y"
-                style="top: 0px; right: 0px; height: 380px;"
-            >
-                <div
-                    class="ps__thumb-y"
-                    tabindex="0"
-                    style="top: 0px; height: 296px;"
-                >
-                </div>
-            </div>
-        </div>
-        <a
-            class="all-notification"
-            href="javascript:void(0);"
-        >See all notifications <i class="ti-arrow-end"></i></a>
-    </div>
 </li>

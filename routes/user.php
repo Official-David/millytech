@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\TradeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\SettingsController;
 
@@ -18,6 +18,8 @@ use App\Http\Controllers\User\SettingsController;
 */
 
 Route::get('', [DashboardController::class, 'dashboard'])->name('index');
+
+Route::resource('notifications', NotificationController::class);
 
 Route::prefix('trades')->as('trades.')->group(function () {
     Route::get('', [TradeController::class, 'index'])->name('index');
