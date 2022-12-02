@@ -19,7 +19,7 @@ use App\Http\Controllers\User\SettingsController;
 
 Route::get('', [DashboardController::class, 'dashboard'])->name('index');
 
-Route::resource('notifications', NotificationController::class);
+Route::resource('notifications', NotificationController::class)->only('index', 'show', 'destroy');
 
 Route::prefix('trades')->as('trades.')->group(function () {
     Route::get('', [TradeController::class, 'index'])->name('index');

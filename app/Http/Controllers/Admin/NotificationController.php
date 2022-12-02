@@ -34,18 +34,11 @@ class NotificationController extends Controller
         ]);
         DB::beginTransaction();
         try {
-            $slug = Str::slug($request->input('title'));
-            $i = 0;
-            while (DB::table('notifications')->where('slug', $slug)->exists()) {
-                $slug .= "_" . $i + 1;
-                $i++;
-            }
             $notification = Notification::create([
                 'title' => $request->input('title'),
-                'slug' => $slug,
                 'message' => $request->input('message'),
             ]);
-            $notification->user()->attach($request->input('users'));
+            $notification->users()->attach($request->input('users'));
             DB::commit();
             session()->flash('message', 'Notification(s) sent successfully');
             return redirect()->back();
