@@ -19,9 +19,9 @@
         </a>
     </li>
 
-    <li><a href="{{ route('admin.trade.index') }}" aria-expanded="false">
+    <li><a href="{{ route('admin.notifications.create') }}" aria-expanded="false">
             <i class="fa fa-bell"></i>
-            <span class="nav-text">Notifications</span>
+            <span class="nav-text">Send Notification</span>
         </a>
     </li>
 

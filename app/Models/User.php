@@ -39,12 +39,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function trades(){
+    public function trades()
+    {
         return $this->hasMany(Trade::class);
     }
 
     public function bank()
     {
         return $this->hasOne(Bank::class);
+    }
+
+    public function notifications()
+    {
+        return $this->belongsToMany(Notification::class)->withPivot('read');
     }
 }
