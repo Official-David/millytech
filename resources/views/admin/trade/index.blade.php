@@ -86,7 +86,7 @@
     </div>
 </div>
 <div class="modal fade" id="show-modal" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Trade Details</h5>
@@ -149,13 +149,9 @@
     $(()=>{
     $('select').niceSelect();
     })
-    let copy = () => {
-        let txt = document.getElementById('account_number')
-        txt.select()
-        txt.setSelectionRange(0,99999)
-        navigator.clipboard.writeText(txt.value)
-        txt.blur()
-        toast('Copied to clipboard','info')
+    let copy = (text, message = null) => {
+        navigator.clipboard.writeText(text)
+        toast(message ?? 'Copied to clipboard','info')
     }
 
     document.getElementById('pay').addEventListener('click', e => {
@@ -210,11 +206,5 @@
                 })
                 .catch(err => console.log(err))
         }
-
-        // document.querySelectorAll('.status-switch').forEach((item) => {
-        //     item.addEventListener('change', e => {
-
-        //     })
-        // })
 </script>
 @endpush

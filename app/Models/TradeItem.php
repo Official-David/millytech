@@ -10,4 +10,9 @@ class TradeItem extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
+    }
 }
