@@ -6,16 +6,35 @@
 
 <div class="container-fluid">
     <div class="mb-sm-4 d-flex flex-wrap align-items-center text-head">
-        <h6 class="mb-3 me-auto">@yield('title')</h6>
+        <h3 class="mb-3 me-auto">@yield('title')</h3>
     </div>
 
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="d-flex justify-content-end">
+                    <form action="{{route('admin.trade.index')}}">
+                        <div class="form-group">
+                            <div @class(["mb-3 input-group  input-primary" ])>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="search"
+                                value="{{request()->input('search')}}"
+                            >
+                            <button type="submit" class="input-group-text">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+                <div class="table-responsive" style="min-height: 300px">
                     <table class="table table-hover table-responsive-sm table-striped">
                         <thead>
                             <tr>
+                                <th>Reference</th>
+                                <th>User</th>
                                 <th>Card</th>
                                 <th>Type</th>
                                 <th>Total</th>
@@ -27,22 +46,25 @@
                         <tbody>
                             @forelse ($trades as $trade)
                             <tr>
+                                <td>{{$trade->reference}}</td>
+                                <td>{{$trade->user->name}}</td>
                                 <td>{{$trade->tradeable->name}}</td>
                                 <td>{{ $trade->tradeable_type == \App\Models\GiftCard::class ? 'GiftCard':'Coin' }}</td>
                                 <td>{{ format_money($trade->total) }}</td>
                                 <td>
-                                    @if(in_array($trade->status,['rejected','paid']))
-                                    <span class="badge badge-outline-{{trade_status($trade->status)}}"> {{
-                                        strtoupper($trade->status) }} </span>
-                                    @else
-                                    <select onchange="changeStatus(event)" id="" class="form-select status-switch wide form-select-sm form-control form-control-sm fs-12" data-id="{{$trade->id}}">
-                                        @foreach (['pending','processing','rejected'] as $status)
-                                        <option value="{{$status}}">{{strtoupper($status)}}</option>
-                                        @endforeach
-                                    </select>
-                                    @endif
+                                    <span @class([
+                                            "badge",
+                                            "badge-outline-success" => $trade->status == 'paid',
+                                            "badge-outline-danger" => $trade->status == 'rejected',
+                                            "badge-outline-info" => $trade->status == 'processing',
+                                            "badge-outline-primary" => $trade->status == 'pending',
+                                            "badge-outline-light" => $trade->status == 'verified',
+                                        ])
+                                    >
+                                        {{strtoupper($trade->status) }}
+                                    </span>
                                 </td>
-                                <td>{{ $trade->created_at->diffForHumans() }}</td>
+                                <td>{{ $trade->created_at->format('d-m-Y - h:ia') }}</td>
                                 <td>
                                     <div class="dropdown dropdown-sm">
                                         <button type="button" class="btn btn-success light sharp"
@@ -60,10 +82,17 @@
                                             <a class="dropdown-item" onclick="show({{$trade->id}})" class="d-block"> <i
                                                     class="fa fa-eye"></i>
                                                 Show</a>
-                                                @if (auth(config('fortify.guard'))->user()->super && in_array($trade->status,['pending','processing']) )
-                                                <a class="dropdown-item" onclick="payForm({{$trade->id}})" class="d-block"> <i
-                                                        class="fa fa-lock"></i>
-                                                    Pay</a>
+                                                @if (in_array($trade->status,['pending','processing']) )
+                                                    <button class="dropdown-item" onclick="showChangeStatusModal('{{route('admin.trade.change-status', $trade->id)}}')">
+                                                        <i class="fa fa-edit"></i>
+                                                        Update Status
+                                                    </button>
+                                                @endif
+                                                @if (auth(config('fortify.guard'))->user()->super && $trade->status == 'verified')
+                                                    <a class="dropdown-item" onclick="payForm({{$trade->id}})">
+                                                        <i class="fa fa-lock"></i>
+                                                        Pay
+                                                    </a>
                                                 @endif
                                         </div>
                                     </div>
@@ -121,7 +150,139 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="change-status" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload payment receipt</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
+
+@push('js')
+<script>
+
+    // let uploaded = e => {
+    //     let url = URL.createObjectURL(e.target.files[0])
+    //       document.getElementById('recept-preview').innerHTML = `<img src="${url}" >`
+    // }
+
+        $('select').niceSelect();
+
+        $(document).on('change','select[name=status]', e => {
+            var el = document.querySelector('#rejection_message_container');
+            if(e.target.value == 'rejected'){
+                el.classList.remove('d-none');
+            }else{
+                el.classList.add('d-none');
+            }
+        });
+
+        let copy = (text, message = null) => {
+            navigator.clipboard.writeText(text)
+            toast(message ?? 'Copied to clipboard','info')
+        }
+
+        document.getElementById('pay').addEventListener('click', e => {
+            document.getElementById('pay-form').submit()
+        })
+
+        let show = id => {
+                fetch(`${window.location.pathname}/show/${id}`)
+                .then(res => res.json())
+                .then(res => {
+                    document.querySelector('#show-modal .modal-body').innerHTML = res.html
+                    $('#show-modal').modal('show')
+                })
+                .catch(err => console.log(err))
+        }
+
+        let payForm = id => {
+            fetch(`${window.location.pathname}/pay-form/${id}`)
+            .then(res => res.json())
+            .then(res => {
+                document.querySelector('#receipt-modal .modal-body').innerHTML = res.html
+                $('#receipt-modal').modal('show')
+            })
+            .catch(err => console.log(err))
+        }
+
+        let showChangeStatusModal = url => {
+
+            fetch(url)
+            .then(res => res.json())
+            .then(res => {
+                document.querySelector('#change-status .modal-body').innerHTML = res.html
+                $('select').niceSelect();
+                $('#change-status').modal('show');
+            })
+            .catch(error => {
+                toast('Failed to load status data','error');
+            });
+
+        }
+
+        let changeStatus = url => {
+            var reject_message = document.querySelector('textarea[name=reject_message]');
+            var status = document.querySelector('select[name=status]');
+            var postData = {
+                status: status.value,
+                reject_message: ''
+            }
+            if(reject_message != ''){
+                postData.reject_message = reject_message.value;
+            }
+
+            fetch(url,{
+                method: 'post',
+                headers:{
+                    "Content-Type": "application/json",
+                    "Accept": "application/json, text-plain, */*",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": "{{csrf_token()}}"
+                },
+                body: JSON.stringify(postData)
+            })
+            .then(async res => {
+
+                var data = await res.json();
+                try {
+                    if (!res.ok) throw data;
+                    return data;
+                } catch (error) {
+                    throw error;
+                }
+            })
+            .then(res => {
+                toast('Status changed successfully')
+                setTimeout(() => location.reload(),1200);
+            })
+            .catch(err => {
+                if(err.hasOwnProperty('errors')){
+                    if(err.errors.hasOwnProperty('status')){
+                        status.nextElementSibling.nextElementSibling.innerHTML = err.errors.status
+                    }
+                    if(err.errors.hasOwnProperty('reject_message')){
+                        reject_message.nextElementSibling.innerHTML = err.errors.reject_message
+                    }
+                    return;
+                }
+                toast('Failed to update status', 'error')
+            })
+        }
+
+
+</script>
+@endpush
+
 
 @push('css')
 <style>
@@ -137,74 +298,4 @@
         height: auto;
     }
 </style>
-@endpush
-
-@push('js')
-<script>
-
-    // let uploaded = e => {
-    //     let url = URL.createObjectURL(e.target.files[0])
-    //       document.getElementById('recept-preview').innerHTML = `<img src="${url}" >`
-    // }
-    $(()=>{
-    $('select').niceSelect();
-    })
-    let copy = (text, message = null) => {
-        navigator.clipboard.writeText(text)
-        toast(message ?? 'Copied to clipboard','info')
-    }
-
-    document.getElementById('pay').addEventListener('click', e => {
-        document.getElementById('pay-form').submit()
-    })
-
-    let show = id => {
-
-            fetch(`${window.location.pathname}/show/${id}`)
-            .then(res => res.json())
-            .then(res => {
-                document.querySelector('#show-modal .modal-body').innerHTML = res.html
-                $('#show-modal').modal('show')
-            })
-            .catch(err => console.log(err))
-        }
-
-        let payForm = id => {
-            fetch(`${window.location.pathname}/pay-form/${id}`)
-            .then(res => res.json())
-            .then(res => {
-                document.querySelector('#receipt-modal .modal-body').innerHTML = res.html
-                $('#receipt-modal').modal('show')
-            })
-            .catch(err => console.log(err))
-        }
-
-        let changeStatus = e => {
-            e.preventDefault();
-            fetch(`${location.pathname}/change-status/${e.target.dataset.id}`,{
-                    method: 'post',
-                    headers:{
-                        "Content-Type": "application/json",
-                        "Accept": "application/json, text-plain, */*",
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRF-TOKEN": "{{csrf_token()}}"
-                    },
-                    body: JSON.stringify({
-                        status : e.target.value
-                    })
-                })
-                .then(res => {
-                    if(!res.ok){
-                        throw 'Error Occured'
-                    }
-                    return res.json()
-                })
-                .then(res => {
-                    toast('Status changed successfully')
-                    setTimeout(() => location.reload(),1200);
-
-                })
-                .catch(err => console.log(err))
-        }
-</script>
 @endpush

@@ -22,6 +22,10 @@
                         </select>
                         <x-error key="users" />
                     </div>
+                    <div class="form-group d-flex justify-content-end">
+                        <input type="checkbox" id="selectAllUsers" class="form-check">
+                        <label class="form-label ms-1 fs-16" for="all">To all users</label>
+                    </div>
 
                     <div class="form-group mt-3">
                         <label for="title">Title</label>
@@ -30,7 +34,7 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="title">Title</label>
+                        <label for="message">Message</label>
                         <textarea name="message" id="message" class="form-control" rows="30"></textarea>
                         <x-error key="message" />
                     </div>
@@ -54,11 +58,30 @@
 @push('js')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    window.onload = () => $('.select2').select2({
-        placeholder: 'Select User(s)'
-        , width: 'resolve'
-        , theme: 'classic'
-    });
+        $('#users').select2({
+            placeholder: 'Select User(s)',
+            width: 'resolve',
+            theme: 'classic'
+        });
+
+        $(document).on('change', '#selectAllUsers', e => {
+            var allUsers = document.getElementById('users');
+            let changeAttr = status => {
+                if(status){
+                    let values = [];
+                    for ( let el of allUsers.options) {
+                        values.push(el.value);
+                    }
+                    $('#users').val(values)
+                }else{
+                    $('#users').val([])
+                }
+
+            }
+            e.target.checked ? changeAttr(true) : changeAttr(false);
+            $('#users').trigger('change');
+        })
+
 
 </script>
 @endpush

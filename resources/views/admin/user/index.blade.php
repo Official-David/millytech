@@ -12,7 +12,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive" style="min-height: 300px">
                     <table class="table table-hover table-responsive-sm">
                         <thead>
                             <tr>
@@ -54,7 +54,8 @@
                                             @if ($user->status != 'pending')
                                                 <a class="dropdown-item" href="{{route('admin.user.show',$user->id)}}">{{$user->status == 'active'?'Deactivate':'Activate'}} Account</a>
                                             @endif
-                                            <a class="dropdown-item delete-user">Delete</a>
+                                            <button class="dropdown-item">Add Alert</button>
+                                            <a class="dropdown-item delete-user" style="cursor: pointer">Delete</a>
                                             <form action="{{route('admin.user.destroy',$user->id)}}" method="POST">
                                                 @method('DELETE')
                                                 @csrf

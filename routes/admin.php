@@ -13,6 +13,7 @@ Route::get('/', [DashboardController::class, 'dashboard'])->name('index');
 Route::resource('user', UserController::class);
 
 Route::resource('trade', TradeController::class)->except(['show']);
+Route::get('trade/change-status/{id}', [TradeController::class, 'showStatus']);
 Route::post('trade/change-status/{id}', [TradeController::class, 'changeStatus'])->name('trade.change-status');
 Route::get('trade/show/{id}', [TradeController::class, 'show']);
 Route::get('trade/pay-form/{id}', [TradeController::class, 'payForm']);

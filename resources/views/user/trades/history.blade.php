@@ -12,25 +12,38 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive" style="min-height: 300px">
                     <table class="table table-hover table-responsive-sm table-striped">
                         <thead>
                             <tr>
-                                <th clas='fs-14'>Card</th>
-                                <th clas='fs-14'>Total</th>
-                                <th clas='fs-14'>Type</th>
-                                <th clas='fs-14'>Status</th>
-                                <th clas='fs-14'>Date</th>
-                                <th clas='fs-14'>Action</th>
+                                <th>Reference</th>
+                                <th>Card</th>
+                                <th>Total</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($trades as $trade)
                             <tr class="fs-14">
-                                <td>{{$trade->tradeable->name}}</td>
+                                <td>{{$trade->reference}}</td>
+                                <td>{{ $trade->tradeable->name }}</td>
                                 <td>{{ format_money($trade->total) }}</td>
                                 <td>{{ $trade->tradeable_type == \App\Models\GiftCard::class ? 'GiftCard':'Coin' }}</td>
-                                <td><span class="badge badge-outline-{{trade_status($trade->status)}}"> {{ strtoupper($trade->status) }} </span></td>
+                                <td>
+                                    <span @class([
+                                            "badge",
+                                            "badge-outline-success" => $trade->status == 'paid',
+                                            "badge-outline-danger" => $trade->status == 'rejected',
+                                            "badge-outline-info" => $trade->status == 'processing',
+                                            "badge-outline-primary" => $trade->status == 'pending',
+                                            "badge-outline-light" => $trade->status == 'verified',
+                                    ])>
+                                        {{ ucfirst($trade->status) }}
+                                    </span>
+                                </td>
                                 <td>{{ $trade->created_at->diffForHumans() }}</td>
                                 <td>
                                     <a onclick="show({{$trade->id}})" class="d-block"> <i class="fa fa-eye"></i> Show</a>

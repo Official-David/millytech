@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class TradeController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $admin = auth()->user();
         if (!$admin->super) {
@@ -21,21 +21,45 @@ class TradeController extends Controller
                 'tradeable',
                 [GiftCard::class],
                 fn(Builder $query) => $query->whereIn('id', $allowed_cards)
-            )->paginate();
+            );
         } else {
-            $trades = Trade::latest()->paginate();
+            $trades = Trade::latest();
         }
-        return view('admin.trade.index', compact('trades'));
+
+        $trades->when(
+            $request->filled('search'),
+            fn (Builder $query) => $query->where(
+                'reference',
+                $request->input('search')
+            )
+        );
+        return view('admin.trade.index', ['trades' => $trades->paginate()->withQueryString()]);
+    }
+
+    public function showStatus($id)
+    {
+        $html = view('components.change-trade-status', [
+            'trade' => GiftCard::findOrFail($id)
+        ])->render();
+
+        return response()->json([
+            'html' => $html
+        ]);
     }
 
 
     public function changeStatus(Request $request, $id)
     {
-        $request->validate([
-            'status' => 'string|in:pending,processing,rejected'
+        $valid = $request->validate([
+            'status' => [
+                'string', 'in:pending,processing,rejected,verified'
+            ],
+            'reject_message' => [
+                'required_if:status,rejected'
+            ],
         ]);
-        $giftcard = Trade::findOrFail($id);
-        $giftcard->update(['status' => $request->status]);
+        $trade = Trade::findOrFail($id);
+        $trade->update($valid);
         return response()->json();
     }
 
