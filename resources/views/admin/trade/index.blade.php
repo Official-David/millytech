@@ -47,7 +47,21 @@
                             @forelse ($trades as $trade)
                             <tr>
                                 <td>{{$trade->reference}}</td>
-                                <td>{{$trade->user->name}}</td>
+                                <td>
+                                    {{$trade->user->name}}
+                                    @if($trade->user->alert_type)
+                                        <i
+                                            @class([
+                                                'fa fa-exclamation-triangle fs-18',
+                                                'text-danger' => ($trade->user->alert_type == 'scam_alert'),
+                                                'text-warning' => ($trade->user->alert_type == 'payment_alert'),
+                                            ])
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="bottom"
+                                            data-bs-title="{{$trade->user->alert_message}}"
+                                        ></i>
+                                    @endif
+                                </td>
                                 <td>{{$trade->tradeable->name}}</td>
                                 <td>{{ $trade->tradeable_type == \App\Models\GiftCard::class ? 'GiftCard':'Coin' }}</td>
                                 <td>{{ format_money($trade->total) }}</td>

@@ -321,6 +321,9 @@
     <x-live-chat />
 
     <script>
+        document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        .forEach(el => new bootstrap.Tooltip(el))
+
         function toast(message, type = 'success') {
             let data = {
                 "closeButton": true,

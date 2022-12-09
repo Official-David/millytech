@@ -11,6 +11,11 @@ use App\Http\Controllers\Admin\GiftCardController;
 Route::get('/', [DashboardController::class, 'dashboard'])->name('index');
 
 Route::resource('user', UserController::class);
+Route::get('user/{id}/alert', [UserController::class, 'showAlertModal'])->name('user.alert');
+Route::post('user/{id}/alert', [UserController::class, 'addAlert']);
+Route::delete('user/{id}/alert', [UserController::class, 'clearAlert']);
+
+
 
 Route::resource('trade', TradeController::class)->except(['show']);
 Route::get('trade/change-status/{id}', [TradeController::class, 'showStatus']);

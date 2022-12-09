@@ -189,25 +189,28 @@
             type: 'doughnut',
             data: {
 
-                labels: ['Pending','Processing','Paid','Rejected'],
+                labels: ['Pending','Processing','Paid','Rejected','Verified'],
                 datasets:[{
                     data: [
                         {{$trades->where('status','pending')->count()}},
                         {{$trades->where('status','processing')->count()}},
                         {{$trades->where('status','paid')->count()}},
                         {{$trades->where('status','rejected')->count()}},
+                        {{$trades->where('status','verified')->count()}},
                     ],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(75, 292, 142, 0.5)',
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
                         'rgba(54, 162, 235, 1)',
                         'rgba(255, 206, 86, 1)',
                         'rgba(75, 192, 192, 1)',
+                        'rgba(75, 292, 142, 1)',
                     ],
                     borderWidth: 0
                 }]

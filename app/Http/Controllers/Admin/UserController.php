@@ -42,6 +42,40 @@ class UserController extends Controller
         //
     }
 
+    public function showAlertModal($id)
+    {
+        $user = User::findOrFail($id);
+        $html = view('components.user-alert-data', ['user' => $user])->render();
+        return response()->json([
+            'html' => $html
+        ]);
+    }
+
+    public function addAlert(Request $request, $id)
+    {
+        $valid = $request->validate([
+            'alert_type' => ['required', 'in:scam_alert,payment_alert'],
+            'alert_message' => ['required', 'string']
+        ]);
+
+        if (!User::whereId($id)->update($valid)) {
+            return response()->json([
+                'error_message' => 'Failed to update scam alert',
+            ], 400);
+        }
+        return response()->json();
+    }
+
+    public function clearAlert($id)
+    {
+        $user = User::findOrFail($id);
+        $user->update([
+            'alert_type' => null,
+            'alert_message' => null
+        ]);
+        return response()->json(['message' => 'Alert cleared from user\'s account']);
+    }
+
     /**
      * Display the specified resource.
      *
