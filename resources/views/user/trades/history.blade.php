@@ -44,7 +44,7 @@
                                         {{ ucfirst($trade->status) }}
                                     </span>
                                 </td>
-                                <td>{{ $trade->created_at->diffForHumans() }}</td>
+                                <td>{{ $trade->created_at->format('d-m-Y - h:ia') }}</td>
                                 <td>
                                     <a onclick="show({{$trade->id}})" class="d-block"> <i class="fa fa-eye"></i> Show</a>
 
