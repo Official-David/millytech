@@ -193,7 +193,7 @@
 
         $(document).on('change','select[name=status]', e => {
             var el = document.querySelector('#rejection_message_container');
-            if(e.target.value == 'rejected'){
+            if(e.target.value == 'rejected' || e.target.value == 'verified'){
                 el.classList.remove('d-none');
             }else{
                 el.classList.add('d-none');
