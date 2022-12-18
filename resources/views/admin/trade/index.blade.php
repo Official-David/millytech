@@ -97,7 +97,7 @@
                                                     class="fa fa-eye"></i>
                                                 Show</a>
                                                 @if (in_array($trade->status,['pending','processing']) )
-                                                    <button class="dropdown-item" onclick="showChangeStatusModal('{{route('admin.trade.change-status', $trade->id)}}')">
+                                                    <button class="dropdown-item" onclick="showChangeStatusModal('{{route('admin.trade.change-status-modal', $trade->id)}}')">
                                                         <i class="fa fa-edit"></i>
                                                         Update Status
                                                     </button>
