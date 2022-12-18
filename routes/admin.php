@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TradeController;
 use App\Http\Controllers\Admin\GiftCardController;
+use App\Http\Controllers\Admin\SystemController;
 use App\Models\GiftCard;
 
 Route::get('/', [DashboardController::class, 'dashboard'])->name('index');
@@ -37,4 +38,5 @@ Route::prefix('settings')->name('settings.')->group(function () {
     Route::resource('admin', AdminController::class)->middleware('can:super-admin');
     Route::get('password', [AdminController::class, 'password'])->name('password');
     Route::post('password', [AdminController::class, 'changePassword'])->name('password.change');
+    Route::post('deactivate-trading', [SystemController::class, 'deactivateTrading'])->name('deactivate-trading');
 });
