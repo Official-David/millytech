@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Create Card')
+@section('title', 'Edit Card')
 @section('content')
     <div class="container-fluid">
         <div class="mb-sm-4 d-flex flex-wrap align-items-center text-head">
@@ -17,6 +17,14 @@
                             <input class="form-control" type="text" id="card_name" name="name"
                                 placeholder="eg. iTunes" value="{{ $giftcard->name }}">
                             <x-error key="name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="status"><strong>Status</strong></label>
+                            <select name="status" id="status" class="form-select">
+                                <option value="active" {{$giftcard->status == 'active'? 'selected':''}}>Active</option>
+                                <option value="inactive" {{$giftcard->status != 'active'? 'selected':''}}>Inactive</option>
+                            </select>
+                            <x-error key="status" />
                         </div>
                         <div class="d-flex justify-content-between align-items-center pb-2">
 
@@ -47,6 +55,42 @@
 
 @push('js')
     <script>
+        let headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json, text-plain, */*",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        }
+        document.getElementById('card_name').onblur = e => {
+
+            e.target.nextElementSibling.innerHTML = ''
+            if(e.target.value != ''){
+                fetch("{{route('admin.giftcards.check-name')}}", {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        name: e.target.value,
+                        giftcard_id: @json($giftcard->id)
+                    }),
+                    headers
+                })
+                .then(async res => {
+                    let data = await res.json();
+                    if(!res.ok){
+                        throw data;
+                    }
+                    return data;
+                })
+                .then(data => {
+                    if(data.exists){
+                        e.target.nextElementSibling.innerHTML = 'The giftcard already exists';
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast('Failed to verify the giftcard name existence');
+                })
+            }
+        }
         document.getElementById('add-currency-rate').addEventListener('click', e => {
             fetch("{{ route('admin.giftcards.add') }}")
                 .then(res => res.json())
@@ -87,6 +131,7 @@
             let rates = document.getElementById('currency-rate').querySelectorAll('.rate');
             let ecode_rates = document.getElementById('currency-rate').querySelectorAll('.ecode_rate');
             let name = document.getElementById('card_name');
+            let status = document.getElementById('status');
 
             clearError(name);
             document.getElementById('currency-rate').querySelectorAll('.currency,.rate,.ecode_rate').forEach((item) => {
@@ -101,6 +146,7 @@
 
                 passChecks = (
                     checkEmpty(name) &&
+                    checkEmpty(status) &&
                     checkEmpty(currencies[i]) &&
                     checkEmpty(rates[i]) &&
                     checkEmpty(ecode_rates[i]) &&
@@ -119,40 +165,39 @@
             }
 
             if (data.length > 0) {
-                create(data, name.value)
+                create(data, name.value, status.value)
             } else {
                 alert('At least a currency and it\'s rates are required');
             }
 
         }
 
-        let create = (data, name) => {
+        let create = (data, name, status) => {
             fetch("{{ route('admin.giftcards.update', $giftcard->id) }}", {
                     method: 'PUT',
                     body: JSON.stringify({
                         meta: data,
-                        name: name
+                        name: name,
+                        status: status,
                     }),
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json, text-plain, */*",
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    headers
+                })
+                .then(async res => {
+                    var data = await res.json()
+                    if(!res.ok){
+                        throw data;
                     }
+                    return data;
                 })
                 .then(res => {
-                    if (200 != res.status) {
-                        throw new Error('An error occured.')
-                    }
-                    res.json()
-                })
-                .then(res => {
-                    alert('updated successfully');
-                    window.location.href = "{{ route('admin.giftcards.index') }}"
+                    toast('Card updated successfully');
+                    setInterval(() => {
+                        window.location.href = "{{ route('admin.giftcards.index') }}"
+                    }, 1300);
                 })
                 .catch(err => {
-                    alert(err.message);
-                    console.log(err.message);
+                    console.log(err)
+                    toast('An error occured, failed to update card','error');
                 })
         }
         document.getElementById('form').addEventListener('submit', e => validate(e))

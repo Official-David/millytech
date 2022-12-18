@@ -23,6 +23,7 @@
                                     <th>Name</th>
                                     <th>Normal Rates</th>
                                     <th>Ecode Rates</th>
+                                    <th>Status</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -45,6 +46,15 @@
                                                     ,
                                                 @endif
                                             @endforeach
+                                        </td>
+                                        <td>
+                                            <span @class([
+                                                'badge',
+                                                'badge-outline-success' => $giftcard->status == 'active',
+                                                'badge-outline-danger' => $giftcard->status == 'inactive',
+                                            ])>
+                                                {{ucfirst($giftcard->status)}}
+                                            </span>
                                         </td>
                                         <td>
                                             <div class="dropdown dropdown-sm">

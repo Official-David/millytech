@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\GiftCard;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class GiftCardController extends Controller
 {
@@ -18,6 +19,20 @@ class GiftCardController extends Controller
     {
         $giftcards = GiftCard::latest()->paginate();
         return view('admin.giftcard.index', compact('giftcards'));
+    }
+
+    public function checkName(Request $request)
+    {
+        // dd($request->input('giftcard_id'));
+        $query = GiftCard::where('name', $request->input('name'));
+
+        if ($request->filled('giftcard_id')) {
+            $query->where('id', '!=', $request->input('giftcard_id'));
+        }
+
+        return response()->json([
+            'exists' => $query->exists()
+        ]);
     }
 
     /**
@@ -38,8 +53,16 @@ class GiftCardController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        $giftcard = GiftCard::create(['name' => $request->input('name')]);
+        $request->validate([
+            'name' => ['required', 'string', 'unique:gift_cards'],
+            'status' => ['required', 'in:active,inactive'],
+            'meta' => ['required']
+        ]);
+
+        $giftcard = GiftCard::create([
+            'name' => $request->input('name'),
+            'status' => $request->input('status')
+        ]);
 
         $giftcard->currencies()->createMany($request->meta);
         return response()->json();
@@ -77,10 +100,17 @@ class GiftCardController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => ['required', 'string', Rule::unique('gift_cards')->ignore($id)],
+            'status' => ['required', 'in:active,inactive'],
+            'meta' => ['required']
+        ]);
+
         $giftcard = GiftCard::findOrFail($id);
-        $giftcard->name = $request->name;
+        $giftcard->name = $request->input('name');
+        $giftcard->status = $request->input('status');
         $giftcard->currencies()->delete();
-        $giftcard->currencies()->createMany($request->meta);
+        $giftcard->currencies()->createMany($request->input('meta'));
         $giftcard->save();
         return response()->json();
     }

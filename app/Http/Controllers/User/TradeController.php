@@ -25,7 +25,7 @@ class TradeController extends Controller
     private $files = [];
     public function index()
     {
-        $giftcards = GiftCard::all();
+        $giftcards = GiftCard::where('status', 'active')->get();
         return view('user.trades.index', compact('giftcards'));
     }
 

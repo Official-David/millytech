@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TradeController;
 use App\Http\Controllers\Admin\GiftCardController;
+use App\Models\GiftCard;
 
 Route::get('/', [DashboardController::class, 'dashboard'])->name('index');
 
@@ -28,6 +29,7 @@ Route::resource('notifications', NotificationController::class)->only('store', '
 
 
 Route::resource('giftcards', GiftCardController::class)->except(['show', 'destroy']);
+Route::post('giftcards/check-name', [GiftCardController::class, 'checkName'])->name('giftcards.check-name');
 Route::get('giftcards/add-currency', [GiftCardController::class, 'addCurrency'])->name('giftcards.add');
 Route::get('giftcards/{id}/destroy', [GiftCardController::class, 'destroy'])->name('giftcards.destroy');
 
