@@ -39,7 +39,7 @@ class TradeController extends Controller
     public function showStatus($id)
     {
         $html = view('components.change-trade-status', [
-            'trade' => GiftCard::findOrFail($id)
+            'trade' => Trade::find($id)
         ])->render();
 
         return response()->json([
