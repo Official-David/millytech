@@ -206,14 +206,10 @@
             }
         }).then(data => {
             if(data.hasOwnProperty('message') && data.hasOwnProperty('redirect_uri')){
-                toast(data.message, 'error');
-                setTimeout(() => window.location.href = data.redirect_uri, 1000)
+                toast(data.message);
+                setTimeout(() => window.location.href = data.redirect_uri, 1500)
             }
         }).catch(error => {
-            if (typeof (error) != 'object' && error != Object(error)) {
-                toast('An error ocurred while trying to place your trade.','error');
-                return;
-            }
                 if(error.hasOwnProperty('errors')){
                     for (let index = 0; index < currencies.length; index++) {
                         for (const key in error.errors) {
@@ -234,8 +230,11 @@
                             }
                         }
                     }
-                }else if(error.hasOwnProperty('message')){
-                    toast(error.message,'error')
+                }else if(error.hasOwnProperty('message') && && data.hasOwnProperty('redirect_uri')){
+                    toast(error.message,'error');
+                    setTimeout(() => window.location.href = data.redirect_uri, 1500)
+                }else{
+                    toast('An error ocurred while trying to place your trade.','error');
                 }
 
         })

@@ -46,7 +46,7 @@ class TradeController extends Controller
                 return response()->json([
                     'message' => 'You need to link a bank account. Go to settings.',
                     'redirect_uri' => route('user.settings.bank.details')
-                ]);
+                ], 400);
             }
             $giftcard = GiftCard::findOrFail($request->input('giftcard'));
             $total = 0;
