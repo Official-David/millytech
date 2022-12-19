@@ -197,7 +197,10 @@
         }).then(async res => {
             var data = await res.json();
             try {
-                if (!res.ok) throw data;
+                if (!res.ok){
+                    console.log(res);
+                    throw data;
+                }
                 return data;
             } catch (error) {
                 throw error;
@@ -208,7 +211,6 @@
                 setTimeout(() => window.location.href = data.redirect_uri, 1000)
             }
         }).catch(error => {
-            console.log(error);
             if (typeof (error) != 'object' && error != Object(error)) {
                 toast('An error ocurred while trying to place your trade.','error');
                 return;
