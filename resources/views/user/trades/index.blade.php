@@ -10,6 +10,7 @@
     <div class="col-lg-8 col-sm-12 m-auto">
         <div class="card">
             <div class="card-body">
+                @if (config('system.trading'))
                 <form action="{{ route('user.trades.place') }}" method="POST" id="form" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
@@ -42,6 +43,11 @@
                         <button type="submit" class="btn btn-outline-primary">Sell</button>
                     </div>
                 </form>
+                @else
+                <div class="text-center my-5">
+                    <strong>Notice!!!</strong> The trading system is temporarily disabled.
+                </div>
+                @endif
             </div>
         </div>
     </div>

@@ -265,6 +265,11 @@
             Content body start
         ***********************************-->
         <div class="content-body">
+            @if (request()->isUser() && !config('system.trading'))
+            <div class="alert alert-outline-warning fade show mx-4 mt-4" role="alert">
+                <strong>Notice!!!</strong> The trading system is temporarily disabled, we will be back shortly.
+            </div>
+            @endif
             @yield('content')
         </div>
         <!--**********************************
