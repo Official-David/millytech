@@ -206,7 +206,7 @@
             }
         }).then(data => {
             if(data.hasOwnProperty('message') && data.hasOwnProperty('redirect_uri')){
-                toast(data.message);
+                toast(data.message, 'error');
                 setTimeout(() => window.location.href = data.redirect_uri, 1000)
             }
         }).catch(error => {
