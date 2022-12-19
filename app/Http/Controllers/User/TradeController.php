@@ -43,7 +43,10 @@ class TradeController extends Controller
         try {
             $user = auth(config('fortify.guard'))->user();
             if (is_null($user->bank)) {
-                return back()->with('error', 'You need to link a bank account. Go to settings.')->withInput();
+                return response()->json([
+                    'message' => 'You need to link a bank account. Go to settings.',
+                    'redirect_uri' => route('user.settings.bank.details')
+                ]);
             }
             $giftcard = GiftCard::findOrFail($request->input('giftcard'));
             $total = 0;
