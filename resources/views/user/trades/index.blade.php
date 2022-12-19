@@ -195,10 +195,10 @@
                 "X-CSRF-Token": document.querySelector('input[name=_token]').value
             }
         }).then(async res => {
+            console.log(res);
             var data = await res.json();
             try {
                 if (!res.ok){
-                    console.log(res);
                     throw data;
                 }
                 return data;
