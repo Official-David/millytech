@@ -208,6 +208,7 @@
                 setTimeout(() => window.location.href = data.redirect_uri, 1000)
             }
         }).catch(error => {
+            console.log(error);
             if (typeof (error) != 'object' && error != Object(error)) {
                 toast('An error ocurred while trying to place your trade.','error');
                 return;
