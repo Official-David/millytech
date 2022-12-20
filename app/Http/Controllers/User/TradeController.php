@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Mail\Trade\SendNewTrade;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Validation\Rules\Base64;
@@ -78,8 +80,10 @@ class TradeController extends Controller
                 'user_id' => $user->id,
                 'total' => $total,
             ]);
+
             $trade->trade_items()->createMany($trade_items);
             DB::commit();
+            Mail::to($giftcard->admins)->send(new SendNewTrade());
             return response()->json([
                 'message' => 'Card traded, please wait for admin approval',
                 'redirect_uri' => route('user.trades.history'),
