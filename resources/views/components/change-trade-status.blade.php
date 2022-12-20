@@ -10,7 +10,7 @@
     </div>
 
     <div class="form-group mb-3 d-none" id="rejection_message_container">
-        <label for="reject_message"><strong>Rejection Message</strong></label>
+        <label for="reject_message"><strong>Message</strong></label>
         <textarea name="reject_message" id="reject_message" cols="30" rows="10" class="form-control"></textarea>
         <x-error key="reject_message" />
     </div>

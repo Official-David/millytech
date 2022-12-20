@@ -34,7 +34,8 @@ class CustomRequiredIf implements Rule, DataAwareRule
      */
     public function passes($attribute, $value)
     {
-        Log::info($value);
+        Log::info('another field: ' . $this->anotherField);
+        Log::info($this->data['cards']);
         return $this->data['cards'][0][$this->anotherField] == $this->val && !empty($value);
 
     }

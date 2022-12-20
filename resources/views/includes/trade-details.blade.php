@@ -1,7 +1,7 @@
 <div class="row">
     <div class="form-group col-md-12">
         <label for=""><strong>User</strong></label>
-        <input type="text" class="form-control" value="{{$trade->user->name}}" disabled>
+        <input type="text" class="form-control" value="{{$trade?->user?->name}}" disabled>
     </div>
     <div class="form-group col-md-6">
         <label for=""><strong>Status</strong></label>

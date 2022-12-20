@@ -230,7 +230,7 @@
                             }
                         }
                     }
-                }else if(error.hasOwnProperty('message') && && data.hasOwnProperty('redirect_uri')){
+                }else if(error.hasOwnProperty('message') && data.hasOwnProperty('redirect_uri')){
                     toast(error.message,'error');
                     setTimeout(() => window.location.href = data.redirect_uri, 1500)
                 }else{

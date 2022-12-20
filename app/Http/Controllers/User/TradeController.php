@@ -59,7 +59,7 @@ class TradeController extends Controller
                     $trade_items,
                     array_merge(
                         [
-                            'currency_id' => $card['currency'],
+                            'currency' => $currency->name,
                             'amount' => $card['amount'],
                             'type' => $card['type'],
                         ],

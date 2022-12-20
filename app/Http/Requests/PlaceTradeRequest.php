@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\CustomRequiredIf;
 use App\Rules\Imageable;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
 
 class PlaceTradeRequest extends FormRequest
@@ -31,8 +32,8 @@ class PlaceTradeRequest extends FormRequest
             'cards.*.currency' => ['required', 'numeric'],
             'cards.*.amount' => ['required', 'numeric'],
             'cards.*.type' => ['required', 'in:ecode,physical'],
-            'cards.*.image' => [new CustomRequiredIf('type', 'physical', 'image'), new Imageable(['png', 'jpeg', 'jpg'])],
-            'cards.*.ecode' => [new CustomRequiredIf('type', 'ecode', 'ecode')],
+            'cards.*.image' => ['required_if:cards.*.type,physical', new Imageable(['png', 'jpeg', 'jpg'])],
+            'cards.*.ecode' => ['required_if:cards.*.type,ecode'],
         ];
     }
 
@@ -41,7 +42,7 @@ class PlaceTradeRequest extends FormRequest
         return [
             'cards.*.currency' => 'currency',
             'cards.*.amount' => 'amount',
-            'cards.*.type' => 'type',
+            'cards.*.type' => 'card type',
             'cards.*.ecode' => 'ecode',
             'cards.*.image' => 'image',
         ];

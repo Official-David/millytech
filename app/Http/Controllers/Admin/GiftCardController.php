@@ -105,13 +105,9 @@ class GiftCardController extends Controller
             'status' => ['required', 'in:active,inactive'],
             'meta' => ['required']
         ]);
-
         $giftcard = GiftCard::findOrFail($id);
-        $giftcard->name = $request->input('name');
-        $giftcard->status = $request->input('status');
-        $giftcard->currencies()->delete();
         $giftcard->currencies()->createMany($request->input('meta'));
-        $giftcard->save();
+        $giftcard->update($request->only('name', 'status'));
         return response()->json();
     }
 

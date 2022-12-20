@@ -9,7 +9,7 @@
                 <input
                     type="text"
                     class="form-control"
-                    value="{{ $trade_item->currency->name }}"
+                    value="{{ $trade_item?->currency ?? 'Deleted' }}"
                     disabled
                 >
             </div>
