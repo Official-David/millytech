@@ -26,6 +26,7 @@ Route::prefix('trades')->as('trades.')->group(function () {
     Route::post('place', [TradeController::class, 'place'])->name('place');
     Route::get('history', [TradeController::class, 'history'])->name('history');
     Route::get('history/show/{id}', [TradeController::class, 'show'])->name('show');
+    Route::get('history/show-status/{id}', [TradeController::class, 'showStatus'])->name('show-status');
 
     Route::get('{id}', [TradeController::class, 'addCard'])->name('add-card');
     Route::get('currencies/{id}', [TradeController::class, 'currencies'])->name('currencies');

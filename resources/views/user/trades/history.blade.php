@@ -46,17 +46,20 @@
                                 </td>
                                 <td>{{ $trade->created_at->format('d-m-Y - h:ia') }}</td>
                                 <td>
-                                    <a onclick="show({{$trade->id}})" class="d-block"> <i class="fa fa-eye"></i> Show</a>
 
-                                    {{-- <div class="dropdown dropdown-sm">
+                                    <div class="dropdown dropdown-sm">
                                         <button type="button" class="btn btn-success light sharp" data-bs-toggle="dropdown" aria-expanded="false">
                                             <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg>
                                         </button>
                                         <div class="dropdown-menu" style="margin: 0px;">
-                                            <a class="dropdown-item" href="#"> <i class="fa fa-eye"></i> Show</a>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            <a onclick="show({{$trade->id}})" class="dropdown-item"> <i class="fa fa-eye"></i> View</a>
+                                            @if ($trade->status == 'rejected')
+                                                <a onclick="showStatus(`{{route('user.trades.show-status', $trade->id)}}`)" class="dropdown-item"> <i class="fa fa-times"></i> Rejection Message</a>
+                                            @elseif($trade->status == 'verified')
+                                                <a onclick="showStatus(`{{route('user.trades.show-status', $trade->id)}}`)" class="dropdown-item"> <i class="fa fa-check"></i> Verification Message</a>
+                                            @endif
                                         </div>
-                                    </div> --}}
+                                    </div>
                                 </td>
                             </tr>
                             @empty
@@ -106,6 +109,17 @@
         let show = id => {
 
             fetch(`${window.location.pathname}/show/${id}`)
+            .then(res => res.json())
+            .then(res => {
+                document.querySelector('#show-modal .modal-body').innerHTML = res.html
+                $('#show-modal').modal('show')
+            })
+            .catch(err => console.log(err))
+        }
+
+        let showStatus = url => {
+
+            fetch(url)
             .then(res => res.json())
             .then(res => {
                 document.querySelector('#show-modal .modal-body').innerHTML = res.html

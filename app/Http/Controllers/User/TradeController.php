@@ -146,4 +146,11 @@ class TradeController extends Controller
         $html = view('includes.trade-details', ['trade' => $trade])->render();
         return response()->json(compact('html'));
     }
+
+    public function showStatus($id)
+    {
+        $trade = Trade::findOrFail($id);
+        $html = view('components.giftcard-status-message', ['trade' => $trade])->render();
+        return response()->json(compact('html'));
+    }
 }
