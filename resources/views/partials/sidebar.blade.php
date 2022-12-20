@@ -5,6 +5,12 @@
         </a>
     </li>
 
+    <li><a href="{{ route('user.rates') }}" aria-expanded="false">
+            <i class="fa fa-chart-line"></i>
+            <span class="nav-text">Rates</span>
+        </a>
+    </li>
+
     {{-- <li class="menu-label d-none d-lg-block"><a href="javascript:void(0);">
             <h4>Personal Menu</h4>
         </a></li> --}}

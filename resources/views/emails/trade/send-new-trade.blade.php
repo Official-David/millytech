@@ -1,7 +1,8 @@
 @component('mail::message')
 # Hi there,
 
-Someone just traded a gift card that you manage, access your dashboard and process the trade.
+You have a new trade with reference <strong>{{$trade->reference}}</strong> from  <strong>{{$trade->user->name}}.</strong>.  Log into your dashboard to process the trade.
+
 
 @component('mail::button', ['url' => route('admin.trade.index')])
 Go to Dashboard

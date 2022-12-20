@@ -9,7 +9,7 @@ use App\Models\Trade;
 
 class DashboardController extends Controller
 {
-    public function dashboard()
+    public function __invoke()
     {
         $user = User::find(auth(config('fortify.guard'))->user()->id);
         $user->load('trades');

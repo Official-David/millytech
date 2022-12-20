@@ -83,7 +83,7 @@ class TradeController extends Controller
 
             $trade->trade_items()->createMany($trade_items);
             DB::commit();
-            Mail::to($giftcard->admins)->send(new SendNewTrade());
+            Mail::to($giftcard->admins)->send(new SendNewTrade($trade));
             return response()->json([
                 'message' => 'Card traded, please wait for admin approval',
                 'redirect_uri' => route('user.trades.history'),

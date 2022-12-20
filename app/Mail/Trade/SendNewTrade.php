@@ -2,10 +2,11 @@
 
 namespace App\Mail\Trade;
 
+use App\Models\Trade;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendNewTrade extends Mailable
 {
@@ -16,9 +17,9 @@ class SendNewTrade extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(public Trade $trade)
     {
-        //
+        $this->subject("New trade notification $trade->reference");
     }
 
     /**

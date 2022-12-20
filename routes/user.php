@@ -4,6 +4,7 @@ use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\TradeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\RatesController;
 use App\Http\Controllers\User\SettingsController;
 
 /*
@@ -17,7 +18,8 @@ use App\Http\Controllers\User\SettingsController;
 |
 */
 
-Route::get('', [DashboardController::class, 'dashboard'])->name('index');
+Route::get('', DashboardController::class)->name('index');
+Route::get('rates', RatesController::class)->name('rates');
 
 Route::resource('notifications', NotificationController::class)->only('index', 'show', 'destroy');
 
