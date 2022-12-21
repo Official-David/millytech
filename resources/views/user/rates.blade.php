@@ -12,7 +12,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="text-end">
-                    <a href="{{route('user.trades.index')}}" class="btn btn-outline-primary">Trade Now</a>
+                    <a href="{{route('user.trades.index')}}" class="btn btn-primary">Trade Now</a>
                 </div>
                 <div class="table-responsive" style="min-height: 300px">
                     <table class="table table-hover table-responsive-sm table-striped">
@@ -58,6 +58,9 @@
                     {{ $giftcards->links() }}
                 </div>
             </div>
+        </div>
+        <div class="text-start">
+            <a href="{{route('user.trades.index')}}" class="btn btn-primary">Trade Now</a>
         </div>
     </div>
 </div>
