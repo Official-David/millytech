@@ -16,7 +16,8 @@
                         <thead>
                             <tr>
                                 <th>Card</th>
-                                <th>Rates</th>
+                                <th>Rates(Physical)</th>
+                                <th>Rates(E-code)</th>
                                 <th>Last Change</th>
                             </tr>
                         </thead>
@@ -27,6 +28,14 @@
                                 <td>
                                     @foreach ($giftcard->currencies as $currency)
                                     {{$currency->name .':'. $currency->rate}}
+                                        @if (!$loop->last)
+                                            {{'|'}}
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach ($giftcard->currencies as $currency)
+                                    {{$currency->name .':'. $currency->ecode_rate}}
                                         @if (!$loop->last)
                                             {{'|'}}
                                         @endif
