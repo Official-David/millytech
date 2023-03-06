@@ -33,6 +33,15 @@ class TradeController extends Controller
                 $request->input('search')
             )
         );
+
+        $trades->when(
+            $request->filled('fstatus'),
+            fn(Builder $query) => $query->where(
+                'status',
+                $request->input('fstatus')
+            )
+        );
+
         return view('admin.trade.index', ['trades' => $trades->paginate()->withQueryString()]);
     }
 
