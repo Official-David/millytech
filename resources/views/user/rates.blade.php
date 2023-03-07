@@ -21,7 +21,7 @@
                                 <th>Card</th>
                                 <th>Rates(Physical)</th>
                                 <th>Rates(E-code)</th>
-                                <th>Last Change</th>
+                                {{-- <th>Last Change</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -44,7 +44,7 @@
                                         @endif
                                     @endforeach
                                 </td>
-                                <td>{{$giftcard->updated_at}}</td>
+                                {{-- <td>{{$giftcard->updated_at}}</td> --}}
 
                             @empty
                             <tr>
