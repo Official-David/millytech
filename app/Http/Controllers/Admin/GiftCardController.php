@@ -96,7 +96,6 @@ class GiftCardController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -106,6 +105,7 @@ class GiftCardController extends Controller
             'meta' => ['required']
         ]);
         $giftcard = GiftCard::findOrFail($id);
+        $giftcard->currencies()->delete();
         $giftcard->currencies()->createMany($request->input('meta'));
         $giftcard->update($request->only('name', 'status'));
         return response()->json();
