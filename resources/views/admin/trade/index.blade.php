@@ -16,7 +16,7 @@
                         <div class="d-flex justify-content-between">
                             <div class="form-group">
                                 <select name="fstatus" id="status-filter">
-                                    <option>Filter by status</option>
+                                    <option>All</option>
                                     <option value="pending">Pending</option>
                                     <option value="processing">Processing</option>
                                     <option value="paid">Paid</option>
