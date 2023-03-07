@@ -16,12 +16,12 @@
                         <div class="d-flex justify-content-between">
                             <div class="form-group">
                                 <select name="fstatus" id="status-filter">
-                                    <option>All</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="processing">Processing</option>
-                                    <option value="paid">Paid</option>
-                                    <option value="rejected">Rejected</option>
-                                    <option value="verified">Verified</option>
+                                    <option value="" @if(request()->get('fstatus') == '' || is_null(request()->get('fstatus'))) selected @endif >All</option>
+                                    <option value="pending" @if(request()->get('fstatus') == 'pending') selected @endif>Pending</option>
+                                    <option value="processing" @if(request()->get('fstatus') == 'processing') selected @endif>Processing</option>
+                                    <option value="paid" @if(request()->get('fstatus') == 'paid') selected @endif>Paid</option>
+                                    <option value="rejected" @if(request()->get('fstatus') == 'rejected') selected @endif>Rejected</option>
+                                    <option value="verified" @if(request()->get('fstatus') == 'verified') selected @endif>Verified</option>
                                 </select>
                             </div>
                             <div class="form-group">
