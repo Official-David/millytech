@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Trade;
 use App\Models\GiftCard;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 
 class TradeController extends Controller
 {
@@ -64,11 +66,31 @@ class TradeController extends Controller
                 'string', 'in:pending,processing,rejected,verified'
             ],
             'reject_message' => [
-                'required_if:status,rejected'
+                'nullable',
+                Rule::requiredIf(in_array($request->input('status'), ['rejected', 'verified']))
+            ],
+            'reject_image'   => [
+                'nullable',
+                Rule::requiredIf(in_array($request->input('status'), ['rejected', 'verified'])),
+                'file',
+                'mimes:png,jpeg,jpg'
             ],
         ]);
-        $trade = Trade::findOrFail($id);
-        $trade->update($valid);
+
+        $data = $request->only('status');
+
+        if ($request->filled('reject_message')) {
+            $data['feedback_message'] = $request->input('reject_message');
+        }
+
+        if ($request->hasFile('reject_image')) {
+            $dir      = public_path(config('dir.trade_feedback_image'));
+            $filename = now()->timestamp . rand() . Str::random(20) . '.' . $request->file('reject_image')->extension();
+            $request->file('reject_image')->move($dir, $filename);
+            $data['feedback_image'] = $filename;
+        }
+
+        Trade::findOrFail($id)->update($data);
         return response()->json();
     }
 

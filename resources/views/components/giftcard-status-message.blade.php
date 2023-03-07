@@ -20,7 +20,16 @@
         <input type="text" class="form-control" value="{{ucfirst($trade->tradeable->name)}}" disabled>
     </div>
     <div class="form-group col-md-12">
-        <label for=""><strong>Status Message</strong></label>
-        <textarea class="form-control" readonly disabled>{{$trade->reject_message}}</textarea>
+        <label for=""><strong>Feedback Message</strong></label>
+        <textarea class="form-control" readonly disabled>{{$trade->feedback_message}}</textarea>
+    </div>
+
+    <div class="">
+        <label for=""><strong>Feedback Image</strong></label>
+        <br>
+        <a target="_blank" href="{{asset(config('dir.trade_feedback_image').$trade->feedback_image)}}" class="btn btn-outline-primary btn-sm">
+            <i class="fa fa-eye"></i>
+            View
+        </a>
     </div>
 </div>

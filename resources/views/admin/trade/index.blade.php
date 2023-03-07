@@ -205,10 +205,13 @@
 
         $(document).on('change', 'select[name=status]', e => {
             var el = document.querySelector('#rejection_message_container');
+            var image_el = document.querySelector('#reject_image_conatainer');
             if (e.target.value == 'rejected' || e.target.value == 'verified') {
                 el.classList.remove('d-none');
+                image_el.classList.remove('d-none');
             } else {
                 el.classList.add('d-none');
+                image_el.classList.add('d-none');
             }
         });
 
@@ -259,23 +262,27 @@
         let changeStatus = url => {
             var reject_message = document.querySelector('textarea[name=reject_message]');
             var status = document.querySelector('select[name=status]');
-            var postData = {
-                status: status.value,
-                reject_message: ''
+            var image = document.querySelector('input[name=reject_image]');
+
+            var pd = new FormData();
+
+
+            pd.append('status', status.value);
+
+            if(reject_message.value  != '') {
+                pd.append('reject_message', reject_message.value);
             }
-            if (reject_message != '') {
-                postData.reject_message = reject_message.value;
+            if(image.files.length) {
+                pd.append('reject_image', image.files[0]);
             }
 
             fetch(url, {
                     method: 'post',
                     headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json, text-plain, */*",
                         "X-Requested-With": "XMLHttpRequest",
                         "X-CSRF-TOKEN": "{{ csrf_token() }}"
                     },
-                    body: JSON.stringify(postData)
+                    body: pd
                 })
                 .then(async res => {
 

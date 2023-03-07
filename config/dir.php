@@ -7,4 +7,5 @@ return [
     'card_image' => 'uploads/cards/',
     'receipt' => 'uploads/receipts/',
     'profile' => 'uploads/profile/',
+    'trade_feedback_image' => 'uploads/trades/',
 ];
